@@ -14,15 +14,15 @@ class LocalButtonLogout extends Component {
 
   render() {
       return (
-          <View>
+          // <View>
             <Button
               onPress={ () => this.onButtonClick(this.props.props)}
               title='Sign out'
               backgroundColor='#4267B2'
               borderRadius={4}
-              buttonStyle={{ width: 210}}
+              // buttonStyle={{ width: 210}}
             />
-          </View>
+          // </View>
       );
   }
 }

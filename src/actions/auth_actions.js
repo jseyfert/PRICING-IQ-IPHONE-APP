@@ -37,6 +37,8 @@ import {
 
    let userLoggedIn = userLocal ? true : false;
    dispatch({ type: IS_USER_LOGGED_IN, payload: userLoggedIn});
+
+   // dispatch({ type: IS_USER_LOGGED_IN, payload: true});
  }
 
  export const googleLogin = () => async dispatch => {
@@ -118,7 +120,7 @@ export const localPasswordReset = ({ email }) => async dispatch => {
 
     const user = await firebase.auth().sendPasswordResetEmail(email);
 
-    dispatch({ type: LOCAL_PASSWORD_RESET, payload: 'check your email' });
+    dispatch({ type: LOCAL_PASSWORD_RESET, payload: 'Check your email' });
   } catch (e) {
     console.log(e);
     dispatch({ type: LOCAL_LOGIN_FAIL, payload: e.message });
@@ -131,9 +133,9 @@ export const localDeleteAccount = () => async dispatch => {
 
     var user = await firebase.auth().currentUser;
     await user.delete()
+
     dispatch({ type: CLEAR_STATE});
     alert('User has been deleted!')
-    // dispatch({ type: DELETE_ACCOUNT_SUCCESS, payload: 'User has been deleted!' });
   } catch (e) {
     dispatch({ type: DELETE_ACCOUNT_ERROR, payload: e.message });
   }

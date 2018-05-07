@@ -1,22 +1,17 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { Button } from "react-native-elements";
+import MainHeader from '../components/MainHeader'
 
 class SubmitScreen extends Component {
 
-    static navigationOptions = { drawerLabel: 'SubmitScreen'};
+    static navigationOptions = { drawerLabel: 'Submit'};
 
     render() {
-        return (
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-              <Text>SubmitScreen!</Text>
-
-              <Button
-                onPress={() => this.props.navigation.navigate('DrawerOpen')}
-                title="hamburger"
-              />
-
-            </View>
+      return (
+          <View>
+            <MainHeader title='Submit' props={this.props} />
+        </View>
         );
     }
 }

@@ -1,22 +1,17 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { Button } from "react-native-elements";
+import MainHeader from '../components/MainHeader'
 
 class DetailScreen extends Component {
 
-    static navigationOptions = { drawerLabel: 'DetailScreen'};
+    static navigationOptions = { drawerLabel: 'Detail'};
 
     render() {
         return (
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-              <Text>DetailScreen!</Text>
-
-              <Button
-                onPress={() => this.props.navigation.navigate('DrawerOpen')}
-                title="hamburger"
-              />
-
-            </View>
+          <View>
+            <MainHeader title='Detail' props={this.props} />
+        </View>
         );
     }
 }

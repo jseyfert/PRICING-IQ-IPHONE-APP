@@ -36,7 +36,7 @@ class LocalButtonDeleteAccount extends Component {
               title='Delete Account'
               backgroundColor='#4267B2'
               borderRadius={4}
-              buttonStyle={{ width: 210}}
+              // buttonStyle={{ width: 210}}
             />
           </View>
       );
