@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View } from 'react-native';
-import { TabNavigator, StackNavigator } from 'react-navigation';
+import { TabNavigator, StackNavigator, DrawerNavigator } from 'react-navigation';
 import { Provider } from 'react-redux';
 import firebase from 'firebase';
 import Config from 'react-native-config'
@@ -18,7 +18,7 @@ const MainNavigator = TabNavigator({
   welcome: { screen: WelcomeScreen},
   auth: { screen: AuthScreen},
   main: {
-    screen: TabNavigator({
+    screen: DrawerNavigator({
       profile: { screen: ProfileScreen},
       detail: { screen: DetailScreen},
       setting: { screen: SubmitScreen},
@@ -30,6 +30,50 @@ const MainNavigator = TabNavigator({
     tabBarVisible: false
   }
 });
+
+// const Stack = {
+// 	FirstView: {
+// 		screen: ProfileScreen
+// 	},
+// 	SecondView: {
+// 		screen: DetailScreen
+// 	},
+// 	ThirdView: {
+// 		screen: SubmitScreen
+// 	}
+// };
+//
+// const DrawerRoutes = {
+// 	FirstViewStack: {
+// 		name: 'FirstViewStack',
+// 		screen: StackNavigator(Stack, { initialRouteName: 'FirstView' })
+// 	},
+// 	SecondViewStack: {
+// 		name: 'SecondViewStack',
+// 		screen: StackNavigator(Stack, { initialRouteName: 'SecondView' })
+// 	},
+// 	ThirdViewStack: {
+// 		name: 'ThirdViewStack',
+// 		screen: StackNavigator(Stack, { initialRouteName: 'ThirdView' })
+// 	},
+// };
+//
+// const MainNavigator =
+// 	StackNavigator({
+// 		Drawer: {
+// 			name: 'Drawer',
+// 			screen: DrawerNavigator(
+// 				DrawerRoutes,
+// 			),
+// 		},
+// 		...Stack
+// 	},
+// 		{
+// 			headerMode: 'none'
+// 		}
+// 	);
+
+
 
 export default class App extends React.Component {
   async componentWillMount() {

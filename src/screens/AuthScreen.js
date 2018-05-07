@@ -10,8 +10,6 @@ import GoogleButtonLogin from '../components/GoogleButtonLogin';
 import LoginForm from '../components/LoginForm';
 import * as actions from '../actions';
 
-// !!!add react-native-firebase to the projext and conver FB & G
-
 class AuthScreen extends Component {
 
   componentWillReceiveProps(nextProps) {

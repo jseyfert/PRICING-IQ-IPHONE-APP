@@ -10,10 +10,14 @@ import {
   PASSWORD_CHANGED,
   LOCAL_LOGIN_SUCCESS,
   LOCAL_LOGIN_FAIL,
-  LOGOUT,
+  LOCAL_PASSWORD_RESET,
+  CLEAR_STATE,
 
-  OAUTH_LOGIN,
-  LOCAL_LOGIN,
+  SCREEN_SPINNER,
+  BUTTON_SPINNER,
+
+  DELETE_ACCOUNT_ERROR,
+  DELETE_ACCOUNT_SUCCESS,
 
 } from '../actions/types';
 
@@ -36,11 +40,14 @@ export default function(state = INITIAL_STATE, action) {
 
       case IS_USER_LOGGED_IN:
         return { ...state, userLoggedIn: action.payload };
-      case LOGOUT:
+      case CLEAR_STATE:
         return INITIAL_STATE;
 
-      case OAUTH_LOGIN:
+      case SCREEN_SPINNER:
         return { ...state, screenLoading: true };
+      case BUTTON_SPINNER:
+        return { ...state, buttonLoading: true, error: '' };
+
       case FACEBOOK_LOGIN_SUCCESS:
         return { ...state, userFacebook: action.payload, screenLoading: false};
       case FACEBOOK_LOGIN_FAIL:
@@ -54,13 +61,17 @@ export default function(state = INITIAL_STATE, action) {
         return { ...state, email: action.payload };
       case PASSWORD_CHANGED:
         return { ...state, password: action.payload };
-      case LOCAL_LOGIN:
-        return { ...state, buttonLoading: true, error: '' };
       case LOCAL_LOGIN_SUCCESS:
         return { ...state, userLocal: action.payload};
-        // return { ...state, ...INITIAL_STATE, userLocal: action.payload, userLoggedIn: true };
       case LOCAL_LOGIN_FAIL:
         return { ...state, error: action.payload, password: '', buttonLoading: false };
+      case LOCAL_PASSWORD_RESET:
+        return { ...state, error: action.payload, password: '', email: '', buttonLoading: false };
+
+      // case DELETE_ACCOUNT_SUCCESS:
+      //   return { error: action.payload }
+      case DELETE_ACCOUNT_ERROR:
+        return { ...state, error: action.payload, password: '', email: '', screenLoading: false };
 
       default:
         return state;

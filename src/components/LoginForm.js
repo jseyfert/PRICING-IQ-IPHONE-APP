@@ -1,10 +1,18 @@
 import React, { Component } from 'react';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
+import { Button as NativeButton } from 'react-native';
 import { connect } from 'react-redux';
-import { emailChanged, passwordChanged, localLogin } from '../actions';
+import { emailChanged, passwordChanged, localLogin, localSignUp, localPasswordReset } from '../actions';
 import { Card, CardSection, Input, Button, Spinner } from './common';
 
 class LoginForm extends Component {
+
+  state = { button: 'signin' }
+
+  onChangeButton(option) {
+    this.setState({button: option})
+  }
+
   onEmailChange(text) {
     this.props.emailChanged(text);
   }
@@ -13,22 +21,82 @@ class LoginForm extends Component {
     this.props.passwordChanged(text);
   }
 
-  onButtonPress() {
+  onLogin() {
     const { email, password } = this.props;
-
     this.props.localLogin({ email, password });
+  }
+
+  onSignUp() {
+    const { email, password } = this.props;
+    this.props.localSignUp({ email, password });
+  }
+
+  onPasswordReset() {
+    const { email } = this.props;
+    this.props.localPasswordReset({ email });
+    this.setState({button: 'signin'})
   }
 
   renderButton() {
     if (this.props.buttonLoading) {
-      return <Spinner size="large" />;
+      return (
+        <CardSection>
+          <Spinner size="large" />;
+        </CardSection>
+      )
+    }
+
+    if (this.state.button === 'signin'){
+      return (
+        <View>
+          <CardSection>
+            <Button onPress={this.onLogin.bind(this)}>
+              Sign In
+            </Button>
+          </CardSection>
+          <Text style={styles.textStyle}>
+            <NativeButton
+              onPress={this.onChangeButton.bind(this, 'signup')}
+              title="Create Account" />
+            <NativeButton
+              onPress={this.onChangeButton.bind(this, 'forgotPassword')}
+              title="Forgot Password?"/>
+          </Text>
+        </View>
+        );
+    }
+
+    if (this.state.button === 'forgotPassword'){
+      return (
+        <View>
+          <CardSection>
+            <Button onPress={this.onPasswordReset.bind(this)}>
+              Forgot Password
+            </Button>
+          </CardSection>
+          <Text style={styles.textStyle}>
+            <NativeButton
+              onPress={this.onChangeButton.bind(this, 'signin')}
+              title="Back to Sign In" />
+          </Text>
+        </View>
+        );
     }
 
     return (
-      <Button onPress={this.onButtonPress.bind(this)}>
-        Continue
-      </Button>
-    );
+      <View>
+        <CardSection>
+          <Button onPress={this.onSignUp.bind(this)}>
+            Create Account
+          </Button>
+        </CardSection>
+        <Text style={styles.textStyle}>
+          <NativeButton
+            onPress={this.onChangeButton.bind(this, 'signin')}
+            title="Back to Sign In" />
+        </Text>
+      </View>
+      );
   }
 
   render() {
@@ -43,7 +111,7 @@ class LoginForm extends Component {
           />
         </CardSection>
 
-        <CardSection>
+        { this.state.button === 'forgotPassword' || <CardSection>
           <Input
             secureTextEntry
             label="Password"
@@ -51,15 +119,16 @@ class LoginForm extends Component {
             onChangeText={this.onPasswordChange.bind(this)}
             value={this.props.password}
           />
-        </CardSection>
+        </CardSection>}
+
 
         <Text style={styles.errorTextStyle}>
           {this.props.error}
         </Text>
 
-        <CardSection>
           {this.renderButton()}
-        </CardSection>
+
+
       </Card>
     );
   }
@@ -70,16 +139,21 @@ const styles = {
     fontSize: 20,
     alignSelf: 'center',
     color: 'red'
+  },
+  textStyle: {
+    // padding: 8,
+    // fontSize: 18,
+    alignSelf: 'center',
   }
 };
 
 const mapStateToProps = ({ auth }) => {
-  console.log('in loginForm  STATE=====', auth);
+  // console.log('in loginForm  STATE=====', auth);
   const { email, password, error, buttonLoading } = auth;
 
   return { email, password, error, buttonLoading };
 };
 
 export default connect(mapStateToProps, {
-  emailChanged, passwordChanged, localLogin
+  emailChanged, passwordChanged, localLogin, localSignUp, localPasswordReset
 })(LoginForm);
