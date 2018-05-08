@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image   } from 'react-native';
 import { PricingCard, Button, Card , Divider} from "react-native-elements";
@@ -16,16 +17,21 @@ class ProfileScreen extends Component {
   static navigationOptions = { drawerLabel: 'Profile'};
 
   render() {
-    let { displayName, email } = this.props.userLocal
-    console.log('userLocal', displayName, email);
+    let displayName = this.props.userLocal ? this.props.userLocal.displayName : null
+    displayName = _.isNull(displayName) ? '' : displayName
+
+    const email = this.props.userLocal ? this.props.userLocal.email : null
+
     if (true) {
       return (
         <View>
 
-          <MainHeader title='Profile' props={this.props} />
+          <MainHeader title='PROFILE' props={this.props} />
 
           <Card
             title={displayName + '\n\nEmail: ' + email} >
+
+            
             <View style={styles.containerOauthButtons}>
               <LocalButtonLogout props={this.props}/>
             </View>
