@@ -12,7 +12,7 @@ import WelcomeScreen from './screens/WelcomeScreen';
 import DetailScreen from './screens/DetailScreen';
 import SettingScreen from './screens/SettingScreen';
 import ProfileScreen from './screens/ProfileScreen';
-// git add-commit -m 'setting page almost complete'
+// git add-commit -m 'trying to figure out the modal'
 
 const MainNavigator = TabNavigator({
   welcome: { screen: WelcomeScreen},

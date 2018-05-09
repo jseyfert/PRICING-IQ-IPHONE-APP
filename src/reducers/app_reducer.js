@@ -1,19 +1,34 @@
 import {
-  DETAIL_URL_CHANGED,
+  ITEM_CHANGED,
   AMAZON_PRICE_CHANGED,
   THIRD_PARTY_PRICE_NEW_CHANGED,
   THIRD_PARTY_PRICE_USED_CHANGED,
+
+  URL_TRACKED,
+  ASIN_TRACKED,
+  AMAZON_PRICE_TRACKED,
+  THIRD_PARTY_PRICE_NEW_TRACKED,
+  THIRD_PARTY_PRICE_USED_TRACKED,
+
   TRACK_ITEM_SUCCESS,
   TRACK_ITEM_ERROR,
+
 } from '../actions/types';
 
 const INITIAL_STATE = {
-  itemToTrack: null,
-  itemTracking: null,
 
-  desiredPriceAmazon: null,
-  desiredPriceThirdNew: null,
-  desiredPriceThirdUsed: null,
+  trackingItem: null,
+
+  item: null,
+  priceAmazon: null,
+  priceThirdNew: null,
+  priceThirdUsed: null,
+
+  url_t: null,
+  asin_t: null,
+  priceAmazon_t: null,
+  priceThirdNew_t: null,
+  priceThirdUsed_t: null,
 
   appError: null,
 };
@@ -23,19 +38,30 @@ export default function(state = INITIAL_STATE, action) {
 
     switch (action.type) {
 
-      case DETAIL_URL_CHANGED:
-        return { ...state, itemToTrack: action.payload };
+      case ITEM_CHANGED:
+        return { ...state, item: action.payload };
       case AMAZON_PRICE_CHANGED:
-        return { ...state, desiredPriceAmazon: action.payload };
+        return { ...state, priceAmazon: action.payload };
       case THIRD_PARTY_PRICE_NEW_CHANGED:
-        return { ...state, desiredPriceThirdNew: action.payload };
+        return { ...state, priceThirdNew: action.payload };
       case THIRD_PARTY_PRICE_USED_CHANGED:
-        return { ...state, desiredPriceThirdUsed: action.payload };
+        return { ...state, priceThirdUsed: action.payload };
+
+      case URL_TRACKED:
+        return { ...state, url_t: action.payload };
+      case ASIN_TRACKED:
+        return { ...state, asin_t: action.payload };
+      case AMAZON_PRICE_TRACKED:
+        return { ...state, priceAmazon_t: action.payload };
+      case THIRD_PARTY_PRICE_NEW_TRACKED:
+        return { ...state, priceThirdNew_t: action.payload };
+      case THIRD_PARTY_PRICE_USED_TRACKED:
+        return { ...state, priceThirdUsed_t: action.payload };
 
       case TRACK_ITEM_ERROR:
-        return { ...state, appError: action.payload};
+        return { ...state, trackingItem: false, appError: action.payload, };
       case TRACK_ITEM_SUCCESS:
-        return { ...state, itemTracking: action.payload, appError: null };
+        return { ...state, trackingItem: true, appError: null };
 
       default:
         return state;

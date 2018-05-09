@@ -115,35 +115,6 @@ export const localSignUp = ({ email, password }) => async dispatch => {
 
     const user = await firebase.auth().createUserWithEmailAndPassword(email, password);
 
-    // var database = firebase.database();
-    //
-    // console.log('user.uiduser.uiduser.uiduser.uid===',user.uid);
-    // firebase.database().ref('users/' + user.uid).set({
-    //   username: 'name',
-    //   email: 'email',
-    //   profile_picture : 'imageUrl'
-    // });
-
-
-    // await user.updateProfile({
-    //   phoneNumber: "123412123412341234",
-    //   photoURL: "123412123412341234",
-    //   // phoneNumber: "{ptAmazon: 'ptAmazon', ptThirdNew: 'ptThirdNew', ptThirdUsed: 'ptThirdUsed', dpAmazon: 'dpAmazon', dpThirdNew: 'dpThirdNew', dpThirdUsed: 'dpThirdUsed',}",
-    //   // photoURL: "https://www.amazon.com/dp/B01J4K861Q/ref=gbps_tit_m-6_1d94_bb9cbfcc?smid=A22VOCH26DVVKI&pf_rd_p=1a431931-176f-4ad9-9ca0-78a424c71d94&pf_rd_s=merchandised-search-6&pf_rd_t=101&pf_rd_i=17608876011&pf_rd_m=ATVPDKIKX0DER&pf_rd_r=5MEWKWYVMGHT2B293RWW"
-    // })
-
-    // const test = await user.updateProfile({
-    //   contactEmail: "contactEmail",
-    //   detailUrl: "detailUrl",
-    //   ptAmazon: "ptAmazon",
-    //   ptThirdNew: "ptThirdNew",
-    //   ptThirdUsed: "ptThirdUsed",
-    //   dpAmazon: "dpAmazon",
-    //   dpThirdNew: "dpThirdNew",
-    //   dpThirdUsed: "dpThirdUsed",
-    // })
-    // console.log('testtesttesttesttest====+=+=.,.,,.', test);
-
     dispatch({ type: LOCAL_LOGIN_SUCCESS, payload: user });
     dispatch({ type: IS_USER_LOGGED_IN, payload: true});
   } catch (e) {

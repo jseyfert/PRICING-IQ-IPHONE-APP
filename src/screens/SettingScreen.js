@@ -1,9 +1,8 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, ScrollView, TextInput, TouchableOpacity, Modal } from 'react-native';
-import { Card, Divider, FormLabel, FormInput, CheckBox, SearchBar } from "react-native-elements";
+import { View, Text, StyleSheet, ScrollView, TextInput } from 'react-native';
+import { Card, Divider, FormLabel, FormInput } from "react-native-elements";
 import { connect } from 'react-redux';
-// import Modal from "react-native-modal";
 
 import * as actions from '../actions';
 import Loading from './Loading';
@@ -11,6 +10,8 @@ import MainHeader from '../components/MainHeader'
 import LocalButtonLogout from '../components/LocalButtonLogout'
 import LocalButtonDeleteAccount from '../components/LocalButtonDeleteAccount'
 import TrackUrlButton from '../components/TrackUrlButton'
+import RemoveTracking from '../components/RemoveTracking'
+import ChangeTracking from '../components/ChangeTracking'
 
 
 class SettingScreen extends Component {
@@ -38,7 +39,7 @@ class SettingScreen extends Component {
   }
 
   render() {
-    let { screenLoading } = this.props
+    let { screenLoading, trackingItem } = this.props
 
     let displayName = this.props.userLocal ? this.props.userLocal.displayName : null
     displayName = _.isNull(displayName) ? '' : displayName
@@ -50,6 +51,25 @@ class SettingScreen extends Component {
 
     if (screenLoading) {
       return <Loading />;
+    }
+
+    if (true) {
+      return (
+        <ScrollView >
+          <MainHeader title='SETTINGS' props={this.props} />
+          <Card
+            containerStyle={{ marginTop: 40 }}
+            title={'You are already tracking an item.' + '\n' + 'Click a button below to make a change.'}>
+
+            <View style={styles.marginBottom}>
+              <ChangeTracking props={this.props}/>
+            </View>
+
+            <RemoveTracking props={this.props}/>
+
+          </Card>
+        </ScrollView>
+      )
     }
 
     return (
@@ -116,9 +136,9 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = ({ auth, app }) => {
-  const { appError } = app;
+  const { appError, trackingItem } = app;
   const { userLocal, screenLoading } = auth;
-  return { userLocal, screenLoading, appError };
+  return { userLocal, screenLoading, appError, trackingItem };
 };
 
 export default connect(mapStateToProps, actions)(SettingScreen);
