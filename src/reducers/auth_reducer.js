@@ -7,6 +7,7 @@ import {
 
   IS_USER_LOGGED_IN,
   EMAIL_CHANGED,
+  NEW_EMAIL_CHANGED,
   PASSWORD_CHANGED,
   LOCAL_LOGIN_SUCCESS,
   LOCAL_LOGIN_FAIL,
@@ -17,11 +18,14 @@ import {
   BUTTON_SPINNER,
 
   DELETE_ACCOUNT_ERROR,
-  DELETE_ACCOUNT_SUCCESS,
+
+  UPDATED_EMAIL_SUCCESS,
+  UPDATED_EMAIL_ERROR,
 
 } from '../actions/types';
 
 const INITIAL_STATE = {
+  newEmail: '',
   email: '',
   password: '',
   error: '',
@@ -49,14 +53,16 @@ export default function(state = INITIAL_STATE, action) {
         return { ...state, buttonLoading: true, error: '' };
 
       case FACEBOOK_LOGIN_SUCCESS:
-        return { ...state, userFacebook: action.payload, screenLoading: false};
+        return { ...state, userLocal: action.payload, screenLoading: false};
       case FACEBOOK_LOGIN_FAIL:
-        return { ...state, userFacebook: null, screenLoading: false };
+        return { ...state, userLocal: null, error: action.payload, screenLoading: false };
       case GOOGLE_LOGIN_SUCCESS:
-        return { ...state, userGoogle: action.payload, screenLoading: false};
+        return { ...state, userLocal: action.payload, screenLoading: false};
       case GOOGLE_LOGIN_FAIL:
-        return { ...state, userGoogle: null, screenLoading: false };
+        return { ...state, userLocal: null, screenLoading: false };
 
+      case NEW_EMAIL_CHANGED:
+        return { ...state, newEmail: action.payload };
       case EMAIL_CHANGED:
         return { ...state, email: action.payload };
       case PASSWORD_CHANGED:
@@ -68,10 +74,13 @@ export default function(state = INITIAL_STATE, action) {
       case LOCAL_PASSWORD_RESET:
         return { ...state, error: action.payload, password: '', email: '', buttonLoading: false };
 
-      // case DELETE_ACCOUNT_SUCCESS:
-      //   return { error: action.payload }
       case DELETE_ACCOUNT_ERROR:
         return { ...state, error: action.payload, password: '', email: '', screenLoading: false };
+
+      case UPDATED_EMAIL_SUCCESS:
+        return { ...state, error: 'Email has been Updated', email: action.payload, newEmail: '', screenLoading: false };
+      case UPDATED_EMAIL_ERROR:
+        return { ...state, error: action.payload, newEmail: '', screenLoading: false };
 
       default:
         return state;

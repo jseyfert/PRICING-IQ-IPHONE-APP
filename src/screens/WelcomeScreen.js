@@ -10,9 +10,9 @@ import Loading from './Loading';
 import * as actions from '../actions';
 
 const SLIDE_DATA = [
-  // { text: 'Welcome Friggin Yeah', color: '#03A9F4'},
-  // { text: 'We do cool shit', color: '#009688'},
-  { text: 'information slides for first time users', color: '#03A9F4'},
+  // { text: 'Hi', color: '#03A9F4'},
+  // { text: 'Here are details about how to use the app', color: '#009688'},
+  { text: 'Friggin yeah!', color: '#03A9F4'},
 ]
 
 class WelcomeScreen extends Component {
@@ -24,7 +24,8 @@ class WelcomeScreen extends Component {
   componentWillReceiveProps(nextProps) {
     // console.log('in componentWillReceiveProps111', nextProps);
     if (nextProps.userLoggedIn) {
-      this.props.navigation.navigate('profile')
+      this.props.navigation.navigate('setting')
+      // this.props.navigation.navigate('profile')
     }
   }
 
@@ -45,8 +46,8 @@ class WelcomeScreen extends Component {
   }
 }
 
-const mapStateToProps = ({ auth }) => {
-  console.log('here is the current state=====>', auth);
+const mapStateToProps = ({ auth, app }) => {
+  console.log('v=====state=====v\n', {auth, app} );
   const { userLoggedIn } = auth;
   return { userLoggedIn };
 };

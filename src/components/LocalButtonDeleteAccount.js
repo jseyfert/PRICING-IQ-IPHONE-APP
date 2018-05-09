@@ -7,9 +7,13 @@ import * as actions from '../actions';
 
 class LocalButtonDeleteAccount extends Component {
 
+  // onNewEmailChange(text) {
+  //   this.props.newEmailChanged(text);
+  // }
+
   onButtonClick (props) {
     AlertIOS.alert(
-      'Are you sure?',
+      'Delete Account?',
       '',
       [
         {

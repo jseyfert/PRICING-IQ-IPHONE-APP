@@ -1,3 +1,5 @@
+//fix test cancel on google login
+
 import firebase from 'firebase';
 import { AsyncStorage } from 'react-native';
 import { GoogleSignin } from 'react-native-google-signin';
@@ -10,6 +12,7 @@ import {
   GOOGLE_LOGIN_SUCCESS,
   GOOGLE_LOGIN_FAIL,
   EMAIL_CHANGED,
+  NEW_EMAIL_CHANGED,
   PASSWORD_CHANGED,
   BUTTON_SPINNER,
   SCREEN_SPINNER,
@@ -20,9 +23,12 @@ import {
   CLEAR_STATE,
   DELETE_ACCOUNT_SUCCESS,
   DELETE_ACCOUNT_ERROR,
+  UPDATED_EMAIL_SUCCESS,
+  UPDATED_EMAIL_ERROR,
  } from './types'
 
  export const isUserLoggedIn = () => async dispatch => {
+
    let userLocalPromise = new Promise((resolve, reject) => {
      firebase.auth().onAuthStateChanged((user) => {
        if (user) {
@@ -50,7 +56,8 @@ import {
 
       const user = await firebase.auth().signInAndRetrieveDataWithCredential(credential);
 
-      dispatch({ type: GOOGLE_LOGIN_SUCCESS, payload: user});
+      // console.log('google user ', user.user);
+      dispatch({ type: GOOGLE_LOGIN_SUCCESS, payload: user.user});
       dispatch({ type: IS_USER_LOGGED_IN, payload: true});
     } catch (e) {
       dispatch({ type: GOOGLE_LOGIN_FAIL});
@@ -64,24 +71,26 @@ export const facebookLogin = () => async dispatch => {
     const result = await LoginManager.logInWithReadPermissions(['public_profile', 'email']);
 
     if (result.isCancelled) {
-      dispatch({ type: FACEBOOK_LOGIN_FAIL});
+      dispatch({ type: FACEBOOK_LOGIN_FAIL, payload: 'Cancelled'});
+    } else {
+      const data = await AccessToken.getCurrentAccessToken();
+      if (!data) {
+        dispatch({ type: FACEBOOK_LOGIN_FAIL, payload: 'Access Token Error'});
+      } else {
+        const credential = firebase.auth.FacebookAuthProvider.credential(data.accessToken);
+
+        const user = await firebase.auth().signInAndRetrieveDataWithCredential(credential);
+
+        // console.log('facebookLogin user ', user);
+        // console.log('facebookLogin user ', user.user);
+
+        dispatch({ type: FACEBOOK_LOGIN_SUCCESS, payload: user.user });
+        dispatch({ type: IS_USER_LOGGED_IN, payload: true});
+      }
     }
-
-    const data = await AccessToken.getCurrentAccessToken();
-
-    if (!data) {
-      dispatch({ type: FACEBOOK_LOGIN_FAIL});
-    }
-
-    const credential = firebase.auth.FacebookAuthProvider.credential(data.accessToken);
-
-    const user = await firebase.auth().signInAndRetrieveDataWithCredential(credential);
-
-    dispatch({ type: FACEBOOK_LOGIN_SUCCESS, payload: user });
-    dispatch({ type: IS_USER_LOGGED_IN, payload: true});
   } catch (e) {
     console.log(e);
-    dispatch({ type: FACEBOOK_LOGIN_FAIL});
+    dispatch({ type: FACEBOOK_LOGIN_FAIL, payload: e.message});
   }
 }
 
@@ -95,15 +104,45 @@ export const localLogin = ({ email, password }) => async dispatch => {
     dispatch({ type: IS_USER_LOGGED_IN, payload: true});
   } catch (e) {
     console.log(e);
-    dispatch({ type: LOCAL_LOGIN_FAIL, payload: e.message, });
+    dispatch({ type: LOCAL_LOGIN_FAIL, payload: e.message });
   }
 }
+
 
 export const localSignUp = ({ email, password }) => async dispatch => {
   try {
     dispatch({ type: BUTTON_SPINNER });
 
     const user = await firebase.auth().createUserWithEmailAndPassword(email, password);
+
+    // var database = firebase.database();
+    //
+    // console.log('user.uiduser.uiduser.uiduser.uid===',user.uid);
+    // firebase.database().ref('users/' + user.uid).set({
+    //   username: 'name',
+    //   email: 'email',
+    //   profile_picture : 'imageUrl'
+    // });
+
+
+    // await user.updateProfile({
+    //   phoneNumber: "123412123412341234",
+    //   photoURL: "123412123412341234",
+    //   // phoneNumber: "{ptAmazon: 'ptAmazon', ptThirdNew: 'ptThirdNew', ptThirdUsed: 'ptThirdUsed', dpAmazon: 'dpAmazon', dpThirdNew: 'dpThirdNew', dpThirdUsed: 'dpThirdUsed',}",
+    //   // photoURL: "https://www.amazon.com/dp/B01J4K861Q/ref=gbps_tit_m-6_1d94_bb9cbfcc?smid=A22VOCH26DVVKI&pf_rd_p=1a431931-176f-4ad9-9ca0-78a424c71d94&pf_rd_s=merchandised-search-6&pf_rd_t=101&pf_rd_i=17608876011&pf_rd_m=ATVPDKIKX0DER&pf_rd_r=5MEWKWYVMGHT2B293RWW"
+    // })
+
+    // const test = await user.updateProfile({
+    //   contactEmail: "contactEmail",
+    //   detailUrl: "detailUrl",
+    //   ptAmazon: "ptAmazon",
+    //   ptThirdNew: "ptThirdNew",
+    //   ptThirdUsed: "ptThirdUsed",
+    //   dpAmazon: "dpAmazon",
+    //   dpThirdNew: "dpThirdNew",
+    //   dpThirdUsed: "dpThirdUsed",
+    // })
+    // console.log('testtesttesttesttest====+=+=.,.,,.', test);
 
     dispatch({ type: LOCAL_LOGIN_SUCCESS, payload: user });
     dispatch({ type: IS_USER_LOGGED_IN, payload: true});
@@ -141,6 +180,21 @@ export const localDeleteAccount = () => async dispatch => {
   }
 }
 
+export const localChangeEmail = ({ newEmail }) => async dispatch => {
+  try {
+    dispatch({ type: SCREEN_SPINNER });
+
+    let user = await firebase.auth().currentUser;
+    console.log('localChangeEmail=user', user);
+    let message = await user.updateEmail(newEmail)
+    console.log('localChangeEmail=message', message);
+
+    dispatch({ type: UPDATED_EMAIL_SUCCESS, payload: newEmail });
+  } catch (e) {
+    dispatch({ type: UPDATED_EMAIL_ERROR, payload: e.message });
+  }
+}
+
 const localLoginFail = (dispatch, error) => {
   console.log('error', error);
   dispatch({ type: LOCAL_LOGIN_FAIL, payload: error.message, });
@@ -159,6 +213,13 @@ export const localLogout = () => async dispatch => {
     console.log(error);
   });
 }
+
+export const newEmailChanged = (text) => {
+  return {
+    type: NEW_EMAIL_CHANGED,
+    payload: text
+  };
+};
 
 export const emailChanged = (text) => {
   return {

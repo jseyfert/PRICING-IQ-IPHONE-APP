@@ -12,6 +12,10 @@ import * as actions from '../actions';
 
 class AuthScreen extends Component {
 
+  // componentWillMount() {
+  //   this.props.isUserLoggedIn();
+  // }
+
   componentWillReceiveProps(nextProps) {
     // console.log('in componentWillReceiveProps', nextProps);
     if (nextProps.userLoggedIn) {

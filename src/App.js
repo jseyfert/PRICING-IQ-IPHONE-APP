@@ -10,9 +10,9 @@ import store from './store';
 import AuthScreen from './screens/AuthScreen';
 import WelcomeScreen from './screens/WelcomeScreen';
 import DetailScreen from './screens/DetailScreen';
-import SubmitScreen from './screens/SubmitScreen';
+import SettingScreen from './screens/SettingScreen';
 import ProfileScreen from './screens/ProfileScreen';
-// git add-commit -m 'My commit message'
+// git add-commit -m 'setting page almost complete'
 
 const MainNavigator = TabNavigator({
   welcome: { screen: WelcomeScreen},
@@ -20,8 +20,8 @@ const MainNavigator = TabNavigator({
   main: {
     screen: DrawerNavigator({
       profile: { screen: ProfileScreen},
+      setting: { screen: SettingScreen},
       detail: { screen: DetailScreen},
-      setting: { screen: SubmitScreen},
     })
   }
 }, {
