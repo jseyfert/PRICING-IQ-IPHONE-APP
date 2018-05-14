@@ -16,6 +16,7 @@ class LocalButtonLogout extends Component {
       return (
             <Button
               onPress={ () => this.onButtonClick(this.props.props)}
+              icon={{name: 'sign-out', type: 'font-awesome'}}
               title='Sign out'
               backgroundColor='#4267B2'
               borderRadius={4}

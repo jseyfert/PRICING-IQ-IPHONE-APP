@@ -3,7 +3,12 @@ import { Text, View } from 'react-native';
 import { Button as NativeButton } from 'react-native';
 import { connect } from 'react-redux';
 import { emailChanged, passwordChanged, localLogin, localSignUp, localPasswordReset } from '../actions';
-import { Card, CardSection, Input, Button, Spinner } from './common';
+import { CardSection, Input, Button, Spinner } from './common';
+
+import { Card, FormLabel, FormInput, FormValidationMessage } from 'react-native-elements'
+import { Button as ElementsButton } from 'react-native-elements'
+
+
 
 class LoginForm extends Component {
 
@@ -40,20 +45,24 @@ class LoginForm extends Component {
   renderButton() {
     if (this.props.buttonLoading) {
       return (
-        <CardSection>
-          <Spinner size="large" />;
-        </CardSection>
+        <ElementsButton
+          loading
+          backgroundColor='#CF543D'
+          borderRadius={4}
+        />
       )
     }
 
     if (this.state.button === 'signin'){
       return (
         <View>
-          <CardSection>
-            <Button onPress={this.onLogin.bind(this)}>
-              Sign In
-            </Button>
-          </CardSection>
+          <ElementsButton
+            onPress={this.onSignUp.bind(this)}
+            icon={{name: 'sign-in', type: 'font-awesome'}}
+            title='Sign In'
+            backgroundColor='#CF543D'
+            borderRadius={4}
+          />
           <Text style={styles.textStyle}>
             <NativeButton
               onPress={this.onChangeButton.bind(this, 'signup')}
@@ -69,11 +78,13 @@ class LoginForm extends Component {
     if (this.state.button === 'forgotPassword'){
       return (
         <View>
-          <CardSection>
-            <Button onPress={this.onPasswordReset.bind(this)}>
-              Forgot Password
-            </Button>
-          </CardSection>
+          <ElementsButton
+            onPress={this.onSignUp.bind(this)}
+            icon={{name: 'info-circle', type: 'font-awesome'}}
+            title='Forgot Password'
+            backgroundColor='#CF543D'
+            borderRadius={4}
+          />
           <Text style={styles.textStyle}>
             <NativeButton
               onPress={this.onChangeButton.bind(this, 'signin')}
@@ -85,11 +96,13 @@ class LoginForm extends Component {
 
     return (
       <View>
-        <CardSection>
-          <Button onPress={this.onSignUp.bind(this)}>
-            Create Account
-          </Button>
-        </CardSection>
+          <ElementsButton
+            onPress={this.onSignUp.bind(this)}
+            icon={{name: 'sign-in', type: 'font-awesome'}}
+            title='Create Account'
+            backgroundColor='#CF543D'
+            borderRadius={4}
+          />
         <Text style={styles.textStyle}>
           <NativeButton
             onPress={this.onChangeButton.bind(this, 'signin')}
@@ -101,45 +114,38 @@ class LoginForm extends Component {
 
   render() {
     return (
-      <Card>
-        <CardSection>
-          <Input
-            label="Email"
-            placeholder="email@gmail.com"
-            onChangeText={this.onEmailChange.bind(this)}
-            value={this.props.email}
-          />
-        </CardSection>
+      <View>
+        <FormLabel>Email</FormLabel>
+        <FormInput
+          placeholder="email@gmail.com"
+          onChangeText={this.onEmailChange.bind(this)}
+          // value={this.props.email}
+        />
 
-        { this.state.button === 'forgotPassword' || <CardSection>
-          <Input
-            secureTextEntry
-            label="Password"
-            placeholder="password"
-            onChangeText={this.onPasswordChange.bind(this)}
-            value={this.props.password}
-          />
-        </CardSection>}
+        { this.state.button === 'forgotPassword' || <View>
+        <FormLabel>Password</FormLabel>
+        <FormInput
+          secureTextEntry
+          placeholder="password"
+          onChangeText={this.onPasswordChange.bind(this)}
+          // value={this.props.password}
+        /></View>}
 
-
-        <Text style={styles.errorTextStyle}>
-          {this.props.error}
-        </Text>
+        <FormValidationMessage labelStyle={{ textAlign: 'center', fontSize: 18 }}>{this.props.error}</FormValidationMessage>
 
           {this.renderButton()}
 
-
-      </Card>
+      </View>
     );
   }
 }
 
 const styles = {
-  errorTextStyle: {
-    fontSize: 20,
-    alignSelf: 'center',
-    color: 'red'
-  },
+  // errorTextStyle: {4
+  //   fontSize: 20,
+  //   alignSelf: 'center',
+  //   color: 'red'
+  // },
   textStyle: {
     // padding: 8,
     // fontSize: 18,

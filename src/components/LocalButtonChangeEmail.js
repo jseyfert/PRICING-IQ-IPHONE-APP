@@ -34,6 +34,7 @@ class LocalButtonChangeEmail extends Component {
       return (
             <Button
               onPress={ () => this.onButtonClick(this.props)}
+              icon={{name: 'pencil', type: 'font-awesome'}}
               title='Change Email'
               backgroundColor='#4267B2'
               borderRadius={4} />

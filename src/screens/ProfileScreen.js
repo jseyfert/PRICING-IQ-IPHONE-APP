@@ -1,3 +1,4 @@
+// git add-commit -m 'zzz'
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
@@ -20,20 +21,26 @@ class ProfileScreen extends Component {
     this.props.isUserLoggedIn();
   }
 
+  // componentWillReceiveProps(nextProps) {
+  //   // console.log('in componentWillReceiveProps', nextProps);
+  //   if (nextProps.user) {
+  //     this.props.navigation.navigate('setting')
+  //   }
+  // }
+
   onNewEmailChange(text) {
     this.props.newEmailChanged(text);
   }
 
   render() {
-    let { screenLoading } = this.props
+    const { screenLoading } = this.props
 
-    let displayName = this.props.userLocal ? this.props.userLocal.displayName : null
-    displayName = _.isNull(displayName) ? '' : displayName
-    const email = this.props.userLocal ? this.props.userLocal.email : null
-    const provider = this.props.userLocal ? this.props.userLocal.providerData[0].providerId : null
+    const email = this.props.user ? this.props.user.email : null
+    const provider = this.props.user ? this.props.user.providerData[0].providerId : null
     const oAuthProvider = (provider === 'facebook.com' || provider === 'google.com') ? true : false
-    console.log('providerproviderprovider===', provider);
-    console.log('oAuthProvider===', oAuthProvider);
+
+    let displayName = this.props.user ? this.props.user.displayName : null
+    displayName = _.isNull(displayName) ? '' : displayName
 
     if (screenLoading) {
       return <Loading />;
@@ -96,8 +103,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = ({ auth }) => {
-  const { userLocal, error, screenLoading } = auth;
-  return { userLocal, error, screenLoading };
+  const { user, error, screenLoading } = auth;
+  return { user, error, screenLoading };
 };
 
 export default connect(mapStateToProps, actions)(ProfileScreen);

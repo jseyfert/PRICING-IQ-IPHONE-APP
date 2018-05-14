@@ -16,7 +16,7 @@ class GoogleButtonLogin extends Component {
               title='Continue With Google'
               backgroundColor='#CF543D'
               borderRadius={4}
-              buttonStyle={{ width: 210}}
+              // buttonStyle={{ width: 210}}
             />
           </View>
       );

@@ -3,7 +3,6 @@ import { View, StyleSheet, ActivityIndicator, StatusBar } from 'react-native';
 
 class Loading extends Component {
     render() {
-      // console.log('>>>>>LOADING...LOADING...LOADINGLOADING...LOADING...LOADINGLOADING...LOADING...LOADING<<<<<<');
         return (
             <View style={styles.container}>
               <ActivityIndicator />

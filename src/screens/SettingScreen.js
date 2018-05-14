@@ -1,3 +1,4 @@
+// git add-commit -m 'zzz'
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, ScrollView, TextInput } from 'react-native';
@@ -9,9 +10,9 @@ import Loading from './Loading';
 import MainHeader from '../components/MainHeader'
 import LocalButtonLogout from '../components/LocalButtonLogout'
 import LocalButtonDeleteAccount from '../components/LocalButtonDeleteAccount'
-import TrackUrlButton from '../components/TrackUrlButton'
-import RemoveTracking from '../components/RemoveTracking'
-import ChangeTracking from '../components/ChangeTracking'
+import TrackItemButton from '../components/TrackItemButton'
+import RemoveTrackingButton from '../components/RemoveTrackingButton'
+import ChangeTrackingButton from '../components/ChangeTrackingButton'
 
 
 class SettingScreen extends Component {
@@ -19,8 +20,21 @@ class SettingScreen extends Component {
   static navigationOptions = { drawerLabel: 'Settings'};
 
   componentWillMount() {
-    this.props.isUserLoggedIn();
+    // let { user } = this.props
+    // if (user) {
+    // } else {
+      this.props.isUserLoggedIn();
+      this.props.isTrackingItem();
+    // }
   }
+
+  // componentWillReceiveProps(nextProps) {
+  //   console.log('in componentWillReceiveProps_+_+_+_+', nextProps);
+  //   // this.props.isTrackingItem();
+  //   // if (nextProps.user) {
+  //   //   this.props.navigation.navigate('setting')
+  //   // }
+  // }
 
   onDetailUrlChange(text) {
     this.props.detailUrlChanged(text);
@@ -40,20 +54,16 @@ class SettingScreen extends Component {
 
   render() {
     let { screenLoading, trackingItem } = this.props
-
-    let displayName = this.props.userLocal ? this.props.userLocal.displayName : null
-    displayName = _.isNull(displayName) ? '' : displayName
-    const email = this.props.userLocal ? this.props.userLocal.email : null
-    const provider = this.props.userLocal ? this.props.userLocal.providerData[0].providerId : null
-    const oAuthProvider = (provider === 'facebook.com' || provider === 'google.com') ? true : false
-    console.log('providerproviderprovider===', provider);
-    console.log('oAuthProvider===', oAuthProvider);
+    console.log('this.props', this.props);
+    // const trackingItem = true
+    // const trackingItem = this.props ? this.props.trackingItem : null
 
     if (screenLoading) {
       return <Loading />;
     }
 
-    if (true) {
+    if (trackingItem) {
+    // if (false) {
       return (
         <ScrollView >
           <MainHeader title='SETTINGS' props={this.props} />
@@ -62,10 +72,14 @@ class SettingScreen extends Component {
             title={'You are already tracking an item.' + '\n' + 'Click a button below to make a change.'}>
 
             <View style={styles.marginBottom}>
-              <ChangeTracking props={this.props}/>
+              <ChangeTrackingButton props={this.props}/>
             </View>
 
-            <RemoveTracking props={this.props}/>
+            <View style={styles.marginBottom}>
+              <Divider/>
+            </View>
+
+            <RemoveTrackingButton props={this.props}/>
 
           </Card>
         </ScrollView>
@@ -115,7 +129,7 @@ class SettingScreen extends Component {
         </Text>
 
         <Card>
-          <TrackUrlButton props={this.props}/>
+          <TrackItemButton props={this.props}/>
         </Card>
 
       </ScrollView>
@@ -136,9 +150,9 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = ({ auth, app }) => {
+  const { user, screenLoading } = auth;
   const { appError, trackingItem } = app;
-  const { userLocal, screenLoading } = auth;
-  return { userLocal, screenLoading, appError, trackingItem };
+  return { appError, trackingItem, user, screenLoading };
 };
 
 export default connect(mapStateToProps, actions)(SettingScreen);

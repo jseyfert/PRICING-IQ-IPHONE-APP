@@ -15,7 +15,7 @@ class MainHeader extends Component {
     return (
       <Header
         leftComponent={{ icon: 'menu', color: '#fff', onPress: () => this.onButtonClick(this.props.props)  }}
-        centerComponent={{ text: this.props.title, style: { color: '#fff' } }} />
+        centerComponent={{ text: this.props.title, style: { color: '#fff', fontSize: 18 } }} />
     )
   }
 }

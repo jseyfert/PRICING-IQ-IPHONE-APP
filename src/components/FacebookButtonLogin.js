@@ -16,7 +16,7 @@ class FacebookButtonLogin extends Component {
               title='Continue With Facebook'
               backgroundColor='#4267B2'
               borderRadius={4}
-              buttonStyle={{ width: 210}}
+              // buttonStyle={{ width: 210}}
             />
           </View>
       );

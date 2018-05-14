@@ -37,6 +37,7 @@ class LocalButtonDeleteAccount extends Component {
           <View>
             <Button
               onPress={ () => this.onButtonClick(this.props.props)}
+              icon={{name: 'trash', type: 'font-awesome'}}
               title='Delete Account'
               backgroundColor='#4267B2'
               borderRadius={4}

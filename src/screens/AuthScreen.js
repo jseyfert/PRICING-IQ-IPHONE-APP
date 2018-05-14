@@ -1,8 +1,10 @@
+// git add-commit -m 'zzz'
 import React, { Component } from 'react';
 import { View, Text, ActivityIndicator, StatusBar, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 const FBSDK = require('react-native-fbsdk');
 const { LoginManager } = FBSDK;
+import { Card, FormLabel } from 'react-native-elements'
 
 import Loading from './Loading';
 import FacebookButtonLogin from '../components/FacebookButtonLogin';
@@ -12,40 +14,53 @@ import * as actions from '../actions';
 
 class AuthScreen extends Component {
 
-  // componentWillMount() {
-  //   this.props.isUserLoggedIn();
-  // }
-
-  componentWillReceiveProps(nextProps) {
-    // console.log('in componentWillReceiveProps', nextProps);
-    if (nextProps.userLoggedIn) {
-      this.props.navigation.navigate('profile')
-    }
+  componentWillMount() {
+    this.props.isUserLoggedIn();
   }
 
+  // componentWillReceiveProps(nextProps) {
+  //   // console.log('in componentWillReceiveProps', nextProps);
+  //   if (nextProps.user) {
+  //     this.props.navigation.navigate('setting')
+  //   }
+  // }
+
   render(props) {
-    // console.log('this.props.loading', this.props.loading);
     if (this.props.screenLoading) {
       return <Loading />;
     }
     return (
-      <View style={styles.containerLocalLogin}>
-
-        <View style={styles.containerLocalLogin}>
+      <View>
+        <Card containerStyle={{ marginTop: 50 }}> 
           <LoginForm />
+          <FormLabel labelStyle={{ textAlign: 'center', marginBottom: 25 }}>
+            OR
+          </FormLabel>
+          <View style={styles.marginBottom}>
+          <FacebookButtonLogin />
         </View>
-
-        <View style={styles.containerOauth}>
-          <View style={styles.containerOauthButtons}>
-            <FacebookButtonLogin />
-          </View>
-          <View style={styles.containerOauthButtons}>
-            <GoogleButtonLogin />
-          </View>
-        </View>
-
+          <GoogleButtonLogin />
+        </Card>
       </View>
     );
+    // return (
+    //   <View style={styles.containerLocalLogin}>
+    //
+    //     <View style={styles.containerLocalLogin}>
+    //       <LoginForm />
+    //     </View>
+    //
+    //     <View style={styles.containerOauth}>
+    //       <View style={styles.containerOauthButtons}>
+    //         <FacebookButtonLogin />
+    //       </View>
+    //       <View style={styles.containerOauthButtons}>
+    //         <GoogleButtonLogin />
+    //       </View>
+    //     </View>
+    //
+    //   </View>
+    // );
   }
 }
 
@@ -62,15 +77,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  containerOauthButtons: {
+  marginBottom: {
     marginBottom: 10,
   },
 });
 
 const mapStateToProps = ({ auth }) => {
-  console.log('mapStateToProps authScreen', auth);
-  const { userLoggedIn, screenLoading } = auth;
-  return { userLoggedIn, screenLoading };
+  const { user, screenLoading } = auth;
+  return { user, screenLoading };
 };
 
 export default connect(mapStateToProps, actions)(AuthScreen);

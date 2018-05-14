@@ -1,3 +1,4 @@
+// git add-commit -m 'zzz'
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { View, Text, AsyncStorage } from 'react-native';
@@ -23,9 +24,8 @@ class WelcomeScreen extends Component {
 
   componentWillReceiveProps(nextProps) {
     // console.log('in componentWillReceiveProps111', nextProps);
-    if (nextProps.userLoggedIn) {
+    if (nextProps.user) {
       this.props.navigation.navigate('setting')
-      // this.props.navigation.navigate('profile')
     }
   }
 
@@ -34,9 +34,9 @@ class WelcomeScreen extends Component {
   }
 
   render() {
-    let { userLoggedIn } = this.props
+    let { user } = this.props
 
-    if (_.isNull(userLoggedIn)) {
+    if (typeof user === "undefined") {
       return <Loading />;
     }
 
@@ -48,8 +48,8 @@ class WelcomeScreen extends Component {
 
 const mapStateToProps = ({ auth, app }) => {
   console.log('v=====state=====v\n', {auth, app} );
-  const { userLoggedIn } = auth;
-  return { userLoggedIn };
+  const { user } = auth;
+  return { user };
 };
 
 export default connect(mapStateToProps, actions)(WelcomeScreen);

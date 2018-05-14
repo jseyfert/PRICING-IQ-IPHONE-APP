@@ -34,7 +34,7 @@ const INITIAL_STATE = {
 };
 
 export default function(state = INITIAL_STATE, action) {
-    console.log('action in APP_REDUCER=', action);
+    // console.log('APP_REDUCER=>', action);
 
     switch (action.type) {
 

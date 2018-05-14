@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
-import { AlertIOS } from 'react-native';
 import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 
 import * as actions from '../actions';
 
-class RemoveTracking extends Component {
+class RemoveTrackingButton extends Component {
 
   onButtonClick (){
-    console.log('in RemoveTracking');
     const { userLocal } = this.props;
     this.props.removeItem(userLocal);
   }
@@ -30,4 +28,4 @@ const mapStateToProps = ({ app, auth }) => {
   return { userLocal };
 };
 
-export default connect(mapStateToProps, actions)(RemoveTracking);
+export default connect(mapStateToProps, actions)(RemoveTrackingButton);

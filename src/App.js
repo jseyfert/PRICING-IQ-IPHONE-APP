@@ -1,3 +1,4 @@
+// git add-commit -m 'zzz'
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 import { TabNavigator, StackNavigator, DrawerNavigator } from 'react-navigation';
@@ -12,7 +13,7 @@ import WelcomeScreen from './screens/WelcomeScreen';
 import DetailScreen from './screens/DetailScreen';
 import SettingScreen from './screens/SettingScreen';
 import ProfileScreen from './screens/ProfileScreen';
-// git add-commit -m 'trying to figure out the modal'
+
 
 const MainNavigator = TabNavigator({
   welcome: { screen: WelcomeScreen},
@@ -30,50 +31,6 @@ const MainNavigator = TabNavigator({
     tabBarVisible: false
   }
 });
-
-// const Stack = {
-// 	FirstView: {
-// 		screen: ProfileScreen
-// 	},
-// 	SecondView: {
-// 		screen: DetailScreen
-// 	},
-// 	ThirdView: {
-// 		screen: SubmitScreen
-// 	}
-// };
-//
-// const DrawerRoutes = {
-// 	FirstViewStack: {
-// 		name: 'FirstViewStack',
-// 		screen: StackNavigator(Stack, { initialRouteName: 'FirstView' })
-// 	},
-// 	SecondViewStack: {
-// 		name: 'SecondViewStack',
-// 		screen: StackNavigator(Stack, { initialRouteName: 'SecondView' })
-// 	},
-// 	ThirdViewStack: {
-// 		name: 'ThirdViewStack',
-// 		screen: StackNavigator(Stack, { initialRouteName: 'ThirdView' })
-// 	},
-// };
-//
-// const MainNavigator =
-// 	StackNavigator({
-// 		Drawer: {
-// 			name: 'Drawer',
-// 			screen: DrawerNavigator(
-// 				DrawerRoutes,
-// 			),
-// 		},
-// 		...Stack
-// 	},
-// 		{
-// 			headerMode: 'none'
-// 		}
-// 	);
-
-
 
 export default class App extends React.Component {
   async componentWillMount() {
