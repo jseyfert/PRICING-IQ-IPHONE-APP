@@ -23,17 +23,22 @@ export const LOGIN_FAIL = 'login_fail';
 // export const IS_USER_LOGGED_IN = 'is_user_logged_in';
 
 
+
 //App
 export const ITEM_CHANGED = 'item_changed';
 export const AMAZON_PRICE_CHANGED = 'amazon_price_changed';
 export const THIRD_PARTY_PRICE_NEW_CHANGED = 'third_party_price_new_changed';
 export const THIRD_PARTY_PRICE_USED_CHANGED = 'third_party_price_used_changed';
+export const EMAIL_NOTIFICATION_CHANGED = 'email_notification_changed';
+export const PUSH_NOTIFICATION_CHANGED = 'push_notification_changed';
 
 export const URL_TRACKED = 'url_tracked';
 export const ASIN_TRACKED = 'asin_tracked';
 export const AMAZON_PRICE_TRACKED = 'amazon_price_tracked';
 export const THIRD_PARTY_PRICE_NEW_TRACKED = 'third_party_price_new_tracked';
 export const THIRD_PARTY_PRICE_USED_TRACKED = 'third_party_price_used_tracked';
+export const EMAIL_NOTIFICATION_TRACKED = 'email_notification_tracked';
+export const PUSH_NOTIFICATION_TRACKED = 'push_notification_tracked';
 
 export const TRACK_ITEM_SUCCESS = 'track_item_success';
 export const TRACK_ITEM_ERROR = 'track_item_error';

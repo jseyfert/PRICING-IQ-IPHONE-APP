@@ -10,12 +10,16 @@ import {
   AMAZON_PRICE_CHANGED,
   THIRD_PARTY_PRICE_NEW_CHANGED,
   THIRD_PARTY_PRICE_USED_CHANGED,
+  EMAIL_NOTIFICATION_CHANGED,
+  PUSH_NOTIFICATION_CHANGED,
 
   URL_TRACKED,
   ASIN_TRACKED,
   AMAZON_PRICE_TRACKED,
   THIRD_PARTY_PRICE_NEW_TRACKED,
   THIRD_PARTY_PRICE_USED_TRACKED,
+  EMAIL_NOTIFICATION_TRACKED,
+  PUSH_NOTIFICATION_TRACKED,
 
   TRACK_ITEM_SUCCESS,
   TRACK_ITEM_ERROR,
@@ -30,21 +34,40 @@ import {
      payload: text
    };
  };
+
  export const amazonPriceChanged = (text) => {
    return {
      type: AMAZON_PRICE_CHANGED,
      payload: text
    };
  };
+
  export const thirdPartyNewChanged = (text) => {
    return {
      type: THIRD_PARTY_PRICE_NEW_CHANGED,
      payload: text
    };
  };
+
  export const thirdPartyUsedChanged = (text) => {
    return {
      type: THIRD_PARTY_PRICE_USED_CHANGED,
+     payload: text
+   };
+ };
+
+ export const emailNotificationsChange = (text) => {
+   text = !text
+   return {
+     type: EMAIL_NOTIFICATION_CHANGED,
+     payload: text
+   };
+ };
+
+ export const pushNotificationsChange = (text) => {
+   text = !text
+   return {
+     type: PUSH_NOTIFICATION_CHANGED,
      payload: text
    };
  };
@@ -65,25 +88,28 @@ export const isTrackingItem = () => async dispatch => {
       dispatch({ type: AMAZON_PRICE_TRACKED, payload: snapshot.val().priceAmazon });
       dispatch({ type: THIRD_PARTY_PRICE_NEW_TRACKED, payload: snapshot.val().priceThirdNew });
       dispatch({ type: THIRD_PARTY_PRICE_USED_TRACKED, payload: snapshot.val().priceThirdUsed });
+      dispatch({ type: EMAIL_NOTIFICATION_TRACKED, payload: snapshot.val().emailNotification });
+      dispatch({ type: PUSH_NOTIFICATION_TRACKED, payload: snapshot.val().pushNotification });
     } else {
       dispatch({ type: TRACK_ITEM_ERROR, payload: null });
     }
   });
 }
 
-
 export const changeTrackingButton = ({
-  url, asin, priceAmazon, priceThirdNew, priceThirdUsed, user
+  url, asin, priceAmazon, priceThirdNew, priceThirdUsed, pushNotification, emailNotification, user
 }) => async dispatch => {
   dispatch({ type: REMOVE_ITEM_TRACKED });
   dispatch({ type: ITEM_CHANGED, payload: url ? url : asin });
   dispatch({ type: AMAZON_PRICE_CHANGED, payload: priceAmazon });
   dispatch({ type: THIRD_PARTY_PRICE_NEW_CHANGED, payload: priceThirdNew });
   dispatch({ type: THIRD_PARTY_PRICE_USED_CHANGED, payload: priceThirdUsed });
+  dispatch({ type: EMAIL_NOTIFICATION_CHANGED, payload: emailNotification });
+  dispatch({ type: PUSH_NOTIFICATION_CHANGED, payload: pushNotification });
 }
 
 export const startTrackingButton = ({
-  item_u, priceAmazon_u, priceThirdNew_u, priceThirdUsed_u, user
+  item_u, priceAmazon_u, priceThirdNew_u, priceThirdUsed_u, pushNotification_u, emailNotification_u, user
 }) => async dispatch => {
 
   item_u = _.trim(item_u)
@@ -103,6 +129,10 @@ export const startTrackingButton = ({
 
   if (_.isEmpty(priceAmazon_u) && _.isEmpty(priceThirdNew_u) && _.isEmpty(priceThirdUsed_u)) {
     return dispatch({ type: TRACK_ITEM_ERROR, payload: 'You must enter at least one price to track!' });
+  }
+
+  if ( !pushNotification_u && !emailNotification_u ) {
+    return dispatch({ type: TRACK_ITEM_ERROR, payload: 'You must select at least one notification!' });
   }
 
   if ( _.isEmpty(priceAmazon_u) === false && isNaN(priceAmazon_u)) {
@@ -131,15 +161,19 @@ export const startTrackingButton = ({
         trackingItem: true,
         url: item_u,
         asin: null,
-        priceAmazon: priceAmazon_u,
+        priceAmazon: 33,
         priceThirdNew: priceThirdNew_u,
         priceThirdUsed: priceThirdUsed_u,
+        pushNotification: pushNotification_u,
+        emailNotification: emailNotification_u,
       });
       dispatch({ type: TRACK_ITEM_SUCCESS });
       dispatch({ type: URL_TRACKED, payload: item_u });
       dispatch({ type: AMAZON_PRICE_TRACKED, payload: priceAmazon_u });
       dispatch({ type: THIRD_PARTY_PRICE_NEW_TRACKED, payload: priceThirdNew_u });
       dispatch({ type: THIRD_PARTY_PRICE_USED_TRACKED, payload: priceThirdUsed_u });
+      dispatch({ type: EMAIL_NOTIFICATION_TRACKED, payload: emailNotification_u });
+      dispatch({ type: PUSH_NOTIFICATION_TRACKED, payload: pushNotification_u });
 
     } else {
       dispatch({ type: TRACK_ITEM_ERROR, payload: 'Not a valid URL or ASIN' });
@@ -152,12 +186,16 @@ export const startTrackingButton = ({
       priceAmazon: priceAmazon_u,
       priceThirdNew: priceThirdNew_u,
       priceThirdUsed: priceThirdUsed_u,
+      pushNotification: pushNotification_u,
+      emailNotification: emailNotification_u,
     });
     dispatch({ type: TRACK_ITEM_SUCCESS });
     dispatch({ type: ASIN_TRACKED, payload: item_u });
     dispatch({ type: AMAZON_PRICE_TRACKED, payload: priceAmazon_u });
     dispatch({ type: THIRD_PARTY_PRICE_NEW_TRACKED, payload: priceThirdNew_u });
     dispatch({ type: THIRD_PARTY_PRICE_USED_TRACKED, payload: priceThirdUsed_u });
+    dispatch({ type: EMAIL_NOTIFICATION_TRACKED, payload: emailNotification_u });
+    dispatch({ type: PUSH_NOTIFICATION_TRACKED, payload: pushNotification_u });
   } else {
     dispatch({ type: TRACK_ITEM_ERROR, payload: 'Not a valid URL or ASIN' });
   }

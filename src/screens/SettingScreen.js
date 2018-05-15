@@ -2,7 +2,7 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, ScrollView, TextInput } from 'react-native';
-import { Card, Divider, FormLabel, FormInput } from "react-native-elements";
+import { Card, Divider, FormLabel, FormInput, CheckBox } from "react-native-elements";
 import { connect } from 'react-redux';
 
 import * as actions from '../actions';
@@ -20,21 +20,14 @@ class SettingScreen extends Component {
   static navigationOptions = { drawerLabel: 'Settings'};
 
   componentWillMount() {
-    // let { user } = this.props
-    // if (user) {
-    // } else {
-      this.props.isUserLoggedIn();
-      this.props.isTrackingItem();
-    // }
+    this.props.isTrackingItem();
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   console.log('in componentWillReceiveProps_+_+_+_+', nextProps);
-  //   // this.props.isTrackingItem();
-  //   // if (nextProps.user) {
-  //   //   this.props.navigation.navigate('setting')
-  //   // }
-  // }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.trackingItem) {
+      this.props.navigation.navigate('detail')
+    }
+  }
 
   onDetailUrlChange(text) {
     this.props.detailUrlChanged(text);
@@ -52,8 +45,19 @@ class SettingScreen extends Component {
     this.props.thirdPartyUsedChanged(text);
   }
 
+  onEmailNotificationsChange() {
+    let { emailNotification_u } = this.props
+    this.props.emailNotificationsChange(emailNotification_u);
+  }
+
+  onPushNotificationsChange() {
+    let { pushNotification_u } = this.props
+    this.props.pushNotificationsChange(pushNotification_u);
+  }
+
   render() {
-    let { screenLoading, trackingItem, item_u, priceAmazon_u, priceThirdNew_u, priceThirdUsed_u  } = this.props
+    let { screenLoading, trackingItem, item_u, priceAmazon_u, priceThirdNew_u, priceThirdUsed_u, pushNotification_u,
+       emailNotification_u  } = this.props
 
     if (screenLoading) {
       return <Loading />;
@@ -124,13 +128,25 @@ class SettingScreen extends Component {
             onChangeText={(text) => this.onThirdPartyUsedChange(text)}
             value={priceThirdUsed_u}
           />
-        </Card>
 
-        <Text style={styles.errorTextStyle}>
-          {this.props.appError}
-        </Text>
+          <CheckBox
+            center
+            title='Email Notifications'
+            checked={emailNotification_u}
+            onIconPress={(bool) => this.onEmailNotificationsChange(bool)}
+            onPress={(bool) => this.onEmailNotificationsChange(bool)}
+          />
+          <CheckBox
+            center
+            title='Push Notifications'
+            checked={pushNotification_u}
+            onIconPress={(bool) => this.onPushNotificationsChange(bool)}
+            onPress={(bool) => this.onPushNotificationsChange(bool)}
+          />
 
-        <Card>
+          <Text style={styles.errorTextStyle}>
+            {this.props.appError}
+          </Text>
           <TrackItemButton props={this.props}/>
         </Card>
 
@@ -144,7 +160,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   errorTextStyle: {
-    marginTop: 10,
+    // marginTop: 10,
     fontSize: 20,
     alignSelf: 'center',
     color: 'red'
@@ -153,8 +169,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = ({ auth, app }) => {
   const { user, screenLoading } = auth;
-  const { appError, trackingItem, item_u, priceAmazon_u, priceThirdNew_u, priceThirdUsed_u } = app;
-  return { appError, trackingItem, item_u, priceAmazon_u, priceThirdNew_u, priceThirdUsed_u, user, screenLoading };
+  const { appError, trackingItem, item_u, priceAmazon_u, priceThirdNew_u, priceThirdUsed_u, pushNotification_u, emailNotification_u } = app;
+  return { appError, trackingItem, item_u, priceAmazon_u, priceThirdNew_u, priceThirdUsed_u, pushNotification_u, emailNotification_u, user, screenLoading };
 };
 
 

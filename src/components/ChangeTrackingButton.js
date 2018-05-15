@@ -16,6 +16,8 @@ class ChangeTrackingButton extends Component {
       priceAmazon,
       priceThirdNew,
       priceThirdUsed,
+      pushNotification,
+      emailNotification,
       user,
     } = this.props;
 
@@ -25,6 +27,8 @@ class ChangeTrackingButton extends Component {
       priceAmazon,
       priceThirdNew,
       priceThirdUsed,
+      pushNotification,
+      emailNotification,
       user,
     });
 
@@ -44,8 +48,8 @@ class ChangeTrackingButton extends Component {
 
 const mapStateToProps = ({ app, auth }) => {
   const { user } = auth;
-  const { url, asin, priceAmazon, priceThirdNew, priceThirdUsed } = app;
-  return { url, asin, priceAmazon, priceThirdNew, priceThirdUsed, user };
+  const { url, asin, priceAmazon, priceThirdNew, priceThirdUsed, pushNotification, emailNotification } = app;
+  return { url, asin, priceAmazon, priceThirdNew, priceThirdUsed, pushNotification, emailNotification, user };
 };
 
 export default connect(mapStateToProps, actions)(ChangeTrackingButton);

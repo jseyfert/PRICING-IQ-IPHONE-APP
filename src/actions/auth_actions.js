@@ -6,6 +6,7 @@ import { GoogleSignin } from 'react-native-google-signin';
 const FBSDK = require('react-native-fbsdk');
 const { LoginManager, GraphRequest, GraphRequestManager, AccessToken } = FBSDK;
 
+
 import {
   CLEAR_STATE,
   DELETE_ACCOUNT_ERROR,

@@ -18,16 +18,15 @@ const SLIDE_DATA = [
 
 class WelcomeScreen extends Component {
 
+
   componentWillMount() {
     this.props.isUserLoggedIn();
   }
 
   componentWillReceiveProps(nextProps) {
-    // console.log('in componentWillReceiveProps111', nextProps);
     if (nextProps.user) {
       this.props.navigation.navigate('setting')
     }
-    // next do login here on is we are going to setting ro detail
   }
 
   onSlidesComplete = () => {
@@ -50,7 +49,8 @@ class WelcomeScreen extends Component {
 const mapStateToProps = ({ auth, app }) => {
   console.log('v=====state=====v\n', {auth, app} );
   const { user } = auth;
-  return { user };
+  const { trackingItem } = app;
+  return { user, trackingItem };
 };
 
 export default connect(mapStateToProps, actions)(WelcomeScreen);

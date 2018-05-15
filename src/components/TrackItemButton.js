@@ -14,6 +14,8 @@ class TrackItemButton extends Component {
       priceAmazon_u,
       priceThirdNew_u,
       priceThirdUsed_u,
+      pushNotification_u,
+      emailNotification_u,
       user,
     } = this.props;
 
@@ -22,6 +24,8 @@ class TrackItemButton extends Component {
       priceAmazon_u,
       priceThirdNew_u,
       priceThirdUsed_u,
+      pushNotification_u,
+      emailNotification_u,
       user,
     });
 
@@ -40,8 +44,8 @@ class TrackItemButton extends Component {
 
 const mapStateToProps = ({ app, auth }) => {
   const { user } = auth;
-  const { item_u, priceAmazon_u, priceThirdNew_u, priceThirdUsed_u } = app;
-  return { item_u, priceAmazon_u, priceThirdNew_u, priceThirdUsed_u, user };
+  const { item_u, priceAmazon_u, priceThirdNew_u, priceThirdUsed_u, pushNotification_u, emailNotification_u } = app;
+  return { item_u, priceAmazon_u, priceThirdNew_u, priceThirdUsed_u, pushNotification_u, emailNotification_u, user };
 };
 
 export default connect(mapStateToProps, actions)(TrackItemButton);

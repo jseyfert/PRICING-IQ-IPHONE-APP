@@ -3,12 +3,16 @@ import {
   AMAZON_PRICE_CHANGED,
   THIRD_PARTY_PRICE_NEW_CHANGED,
   THIRD_PARTY_PRICE_USED_CHANGED,
+  EMAIL_NOTIFICATION_CHANGED,
+  PUSH_NOTIFICATION_CHANGED,
 
   URL_TRACKED,
   ASIN_TRACKED,
   AMAZON_PRICE_TRACKED,
   THIRD_PARTY_PRICE_NEW_TRACKED,
   THIRD_PARTY_PRICE_USED_TRACKED,
+  EMAIL_NOTIFICATION_TRACKED,
+  PUSH_NOTIFICATION_TRACKED,
 
   TRACK_ITEM_SUCCESS,
   TRACK_ITEM_ERROR,
@@ -24,6 +28,8 @@ const INITIAL_STATE = {
   priceAmazon_u: null,
   priceThirdNew_u: null,
   priceThirdUsed_u: null,
+  pushNotification_u: false,
+  emailNotification_u: false,
 
   trackingItem: null,
   url: null,
@@ -31,6 +37,8 @@ const INITIAL_STATE = {
   priceAmazon: null,
   priceThirdNew: null,
   priceThirdUsed: null,
+  pushNotification: null,
+  emailNotification: null,
 
   appError: null,
 };
@@ -48,6 +56,10 @@ export default function(state = INITIAL_STATE, action) {
         return { ...state, priceThirdNew_u: action.payload };
       case THIRD_PARTY_PRICE_USED_CHANGED:
         return { ...state, priceThirdUsed_u: action.payload };
+      case EMAIL_NOTIFICATION_CHANGED:
+        return { ...state, emailNotification_u: action.payload};
+      case PUSH_NOTIFICATION_CHANGED:
+        return { ...state, pushNotification_u: action.payload};
 
       case URL_TRACKED:
         return { ...state, url: action.payload };
@@ -59,6 +71,10 @@ export default function(state = INITIAL_STATE, action) {
         return { ...state, priceThirdNew: action.payload };
       case THIRD_PARTY_PRICE_USED_TRACKED:
         return { ...state, priceThirdUsed: action.payload };
+      case EMAIL_NOTIFICATION_TRACKED:
+        return { ...state, emailNotification: action.payload };
+      case PUSH_NOTIFICATION_TRACKED:
+        return { ...state, pushNotification: action.payload };
 
       case TRACK_ITEM_ERROR:
         return { ...state, trackingItem: false, appError: action.payload, };
@@ -67,6 +83,7 @@ export default function(state = INITIAL_STATE, action) {
 
       case REMOVE_ITEM_TRACKED:
         return { ...INITIAL_STATE, trackingItem: false};
+
 
       case CLEAR_APP_STATE:
         return INITIAL_STATE;
