@@ -37,3 +37,5 @@ export const THIRD_PARTY_PRICE_USED_TRACKED = 'third_party_price_used_tracked';
 
 export const TRACK_ITEM_SUCCESS = 'track_item_success';
 export const TRACK_ITEM_ERROR = 'track_item_error';
+export const CLEAR_APP_STATE = 'clear_app_state';
+export const REMOVE_ITEM_TRACKED = 'remove_item_tracked';

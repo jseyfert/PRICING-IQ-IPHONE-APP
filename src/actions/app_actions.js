@@ -19,6 +19,9 @@ import {
 
   TRACK_ITEM_SUCCESS,
   TRACK_ITEM_ERROR,
+  REMOVE_ITEM_TRACKED,
+
+  CLEAR_APP_STATE,
  } from './types'
 
  export const detailUrlChanged = (text) => {
@@ -46,138 +49,115 @@ import {
    };
  };
 
+export const removeItem = (user) => async dispatch => {
+  let userId = firebase.auth().currentUser.uid;
+  await firebase.database().ref('users/' + userId).remove()
+  return dispatch({ type: REMOVE_ITEM_TRACKED });
+}
+
 export const isTrackingItem = () => async dispatch => {
-  var userId = firebase.auth().currentUser.uid;
+  let userId = firebase.auth().currentUser.uid;
   return firebase.database().ref('users/' + userId).once('value').then(function(snapshot) {
-
-    console.log('snapshot.val()',snapshot.val());
     if (snapshot.val()){
-      console.log('trackjing itme');
-        const trackingItem = snapshot.val().trackingItem
-        if (trackingItem) {
-          console.log('trackingItem', trackingItem);
-          dispatch({ type: TRACK_ITEM_SUCCESS });
-        }
+      dispatch({ type: TRACK_ITEM_SUCCESS });
+      dispatch({ type: URL_TRACKED, payload: snapshot.val().url });
+      dispatch({ type: ASIN_TRACKED, payload: snapshot.val().asin });
+      dispatch({ type: AMAZON_PRICE_TRACKED, payload: snapshot.val().priceAmazon });
+      dispatch({ type: THIRD_PARTY_PRICE_NEW_TRACKED, payload: snapshot.val().priceThirdNew });
+      dispatch({ type: THIRD_PARTY_PRICE_USED_TRACKED, payload: snapshot.val().priceThirdUsed });
     } else {
-      console.log('not trackint itme');
+      dispatch({ type: TRACK_ITEM_ERROR, payload: null });
     }
-
-
-
-
-    // working on this stuff  url_u
-    // const asin_t =
-    // const priceAmazon_t =
-    // const priceThirdNew_t =
-    // const priceThirdUsed_t =
   });
 }
-  // dispatch({ type: TRACK_ITEM_SUCCESS })
-  //
-  // dispatch({ type: ITEM_CHANGED })
-  // dispatch({ type: AMAZON_PRICE_CHANGED })
-  // dispatch({ type: AMAZON_PRICE_TRACKED })
-  // dispatch({ type: THIRD_PARTY_PRICE_NEW_CHANGED })
-  // dispatch({ type: THIRD_PARTY_PRICE_NEW_TRACKED })
-  // dispatch({ type: THIRD_PARTY_PRICE_USED_CHANGED })
-  // dispatch({ type: THIRD_PARTY_PRICE_USED_TRACKED })
-  //
-  // dispatch({ type: URL_TRACKED })
-  // dispatch({ type: ASIN_TRACKED })
 
-  // dispatch({ type: URL_TRACKED, payload: item });
-  // dispatch({ type: AMAZON_PRICE_TRACKED, payload: priceAmazon });
-  // dispatch({ type: THIRD_PARTY_PRICE_NEW_TRACKED, payload: priceThirdNew });
-  // dispatch({ type: THIRD_PARTY_PRICE_USED_TRACKED, payload: priceThirdUsed });
 
-// asin_t
-// priceAmazon_t
-// priceThirdNew_t
-// priceThirdUsed_t
-// trackingItem
-
-export const removeItem = (user) => async dispatch => {
-
-  var userId = firebase.auth().currentUser.uid;
-  console.log(userId);
-  await firebase.database().ref('users/' + userId).remove()
-
-  // console.log('in removeItem',userId );
-  // firebase.database().ref('users/' + userId).set({
-  //   trackingItem: null,
-  //   url_t: null,
-  //   asin_t: null,
-  //   priceAmazon_t: null,
-  //   priceThirdNew_t: null,
-  //   priceThirdUsed_t: null,
-  // });
-
-  // // finish remove item
+export const changeTrackingButton = ({
+  url, asin, priceAmazon, priceThirdNew, priceThirdUsed, user
+}) => async dispatch => {
+  dispatch({ type: REMOVE_ITEM_TRACKED });
+  dispatch({ type: ITEM_CHANGED, payload: url ? url : asin });
+  dispatch({ type: AMAZON_PRICE_CHANGED, payload: priceAmazon });
+  dispatch({ type: THIRD_PARTY_PRICE_NEW_CHANGED, payload: priceThirdNew });
+  dispatch({ type: THIRD_PARTY_PRICE_USED_CHANGED, payload: priceThirdUsed });
 }
 
 export const startTrackingButton = ({
-  item, priceAmazon, priceThirdNew, priceThirdUsed, user
+  item_u, priceAmazon_u, priceThirdNew_u, priceThirdUsed_u, user
 }) => async dispatch => {
 
-  if (_.isNull(item)) {
+  item_u = _.trim(item_u)
+
+  priceAmazon_u = _.trim(priceAmazon_u)
+  priceAmazon_u = !priceAmazon_u ? null : priceAmazon_u
+
+  priceThirdNew_u = _.trim(priceThirdNew_u)
+  priceThirdNew_u = !priceThirdNew_u ? null : priceThirdNew_u
+
+  priceThirdUsed_u = _.trim(priceThirdUsed_u)
+  priceThirdUsed_u = !priceThirdUsed_u ? null : priceThirdUsed_u
+
+  if (_.isEmpty(item_u)) {
     return dispatch({ type: TRACK_ITEM_ERROR, payload: 'Not a valid URL or ASIN' });
   }
 
-  if (_.isNull(priceAmazon) && _.isNull(priceThirdNew) && _.isNull(priceThirdUsed)) {
+  if (_.isEmpty(priceAmazon_u) && _.isEmpty(priceThirdNew_u) && _.isEmpty(priceThirdUsed_u)) {
     return dispatch({ type: TRACK_ITEM_ERROR, payload: 'You must enter at least one price to track!' });
   }
 
-  if ( _.isNull(priceAmazon) === false && isNaN(priceAmazon)) {
+  if ( _.isEmpty(priceAmazon_u) === false && isNaN(priceAmazon_u)) {
     return dispatch({ type: TRACK_ITEM_ERROR, payload: 'Amazon price is not valid!' });
   }
 
-  if ( _.isNull(priceThirdNew) === false && isNaN(priceThirdNew)) {
+  if ( _.isEmpty(priceThirdNew_u) === false && isNaN(priceThirdNew_u)) {
     return dispatch({ type: TRACK_ITEM_ERROR, payload: '3rd Party New price is not valid!' });
   }
 
-  if ( _.isNull(priceThirdUsed) === false && isNaN(priceThirdUsed)) {
+  if ( _.isEmpty(priceThirdUsed_u) === false && isNaN(priceThirdUsed_u)) {
     return dispatch({ type: TRACK_ITEM_ERROR, payload: '3rd Party Used price is not valid!' });
   }
 
-  item = item.trim()
-  const isUrl = parseDomain(item);
+  const isUrl = parseDomain(item_u);
+
   const re = /^\w{7,13}$/i;
-  const isAsin = item.match(re);
+  const isAsin = item_u.match(re);
+
+  var userId = firebase.auth().currentUser.uid;
 
   if (isUrl) {
     const isAmazon = isUrl.domain === 'amazon'
     if (isAmazon) {
-      firebase.database().ref('users/TEST').set({
+      firebase.database().ref('users/' + userId).set({
         trackingItem: true,
-        url_t: item,
-        asin_t: null,
-        priceAmazon_t: priceAmazon,
-        priceThirdNew_t: priceThirdNew,
-        priceThirdUsed_t: priceThirdUsed,
+        url: item_u,
+        asin: null,
+        priceAmazon: priceAmazon_u,
+        priceThirdNew: priceThirdNew_u,
+        priceThirdUsed: priceThirdUsed_u,
       });
       dispatch({ type: TRACK_ITEM_SUCCESS });
-      dispatch({ type: URL_TRACKED, payload: item });
-      dispatch({ type: AMAZON_PRICE_TRACKED, payload: priceAmazon });
-      dispatch({ type: THIRD_PARTY_PRICE_NEW_TRACKED, payload: priceThirdNew });
-      dispatch({ type: THIRD_PARTY_PRICE_USED_TRACKED, payload: priceThirdUsed });
+      dispatch({ type: URL_TRACKED, payload: item_u });
+      dispatch({ type: AMAZON_PRICE_TRACKED, payload: priceAmazon_u });
+      dispatch({ type: THIRD_PARTY_PRICE_NEW_TRACKED, payload: priceThirdNew_u });
+      dispatch({ type: THIRD_PARTY_PRICE_USED_TRACKED, payload: priceThirdUsed_u });
 
     } else {
       dispatch({ type: TRACK_ITEM_ERROR, payload: 'Not a valid URL or ASIN' });
     }
   } else if (isAsin) {
-    firebase.database().ref('users/TEST').set({
+    firebase.database().ref('users/' + userId).set({
       trackingItem: true,
-      url_t: null,
-      asin_t: item,
-      priceAmazon_t: priceAmazon,
-      priceThirdNew_t: priceThirdNew,
-      priceThirdUsed_t: priceThirdUsed,
+      url: null,
+      asin: item_u,
+      priceAmazon: priceAmazon_u,
+      priceThirdNew: priceThirdNew_u,
+      priceThirdUsed: priceThirdUsed_u,
     });
     dispatch({ type: TRACK_ITEM_SUCCESS });
-    dispatch({ type: ASIN_TRACKED, payload: item });
-    dispatch({ type: AMAZON_PRICE_TRACKED, payload: priceAmazon });
-    dispatch({ type: THIRD_PARTY_PRICE_NEW_TRACKED, payload: priceThirdNew });
-    dispatch({ type: THIRD_PARTY_PRICE_USED_TRACKED, payload: priceThirdUsed });
+    dispatch({ type: ASIN_TRACKED, payload: item_u });
+    dispatch({ type: AMAZON_PRICE_TRACKED, payload: priceAmazon_u });
+    dispatch({ type: THIRD_PARTY_PRICE_NEW_TRACKED, payload: priceThirdNew_u });
+    dispatch({ type: THIRD_PARTY_PRICE_USED_TRACKED, payload: priceThirdUsed_u });
   } else {
     dispatch({ type: TRACK_ITEM_ERROR, payload: 'Not a valid URL or ASIN' });
   }

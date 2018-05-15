@@ -10,23 +10,23 @@ class ChangeTrackingButton extends Component {
   onButtonClick (){
 
     console.log('in ChangeTrackingButton');
-    // const {
-    //   item,
-    //   priceAmazon,
-    //   priceThirdNew,
-    //   priceThirdUsed,
-    //   userLocal,
-    // } = this.props;
-    //
-    // console.log(userLocal);
-    //
-    // this.props.startTrackingButton({
-    //   item,
-    //   priceAmazon,
-    //   priceThirdNew,
-    //   priceThirdUsed,
-    //   userLocal,
-    // });
+    const {
+      url,
+      asin,
+      priceAmazon,
+      priceThirdNew,
+      priceThirdUsed,
+      user,
+    } = this.props;
+
+    this.props.changeTrackingButton({
+      url,
+      asin,
+      priceAmazon,
+      priceThirdNew,
+      priceThirdUsed,
+      user,
+    });
 
   }
 
@@ -43,9 +43,9 @@ class ChangeTrackingButton extends Component {
 }
 
 const mapStateToProps = ({ app, auth }) => {
-  const { userLocal } = auth;
-  const { item, priceAmazon, priceThirdNew, priceThirdUsed } = app;
-  return { userLocal, item, priceAmazon, priceThirdNew, priceThirdUsed };
+  const { user } = auth;
+  const { url, asin, priceAmazon, priceThirdNew, priceThirdUsed } = app;
+  return { url, asin, priceAmazon, priceThirdNew, priceThirdUsed, user };
 };
 
 export default connect(mapStateToProps, actions)(ChangeTrackingButton);

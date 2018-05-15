@@ -10,18 +10,18 @@ class TrackItemButton extends Component {
   onButtonClick (){
 
     const {
-      item,
-      priceAmazon,
-      priceThirdNew,
-      priceThirdUsed,
+      item_u,
+      priceAmazon_u,
+      priceThirdNew_u,
+      priceThirdUsed_u,
       user,
     } = this.props;
 
     this.props.startTrackingButton({
-      item,
-      priceAmazon,
-      priceThirdNew,
-      priceThirdUsed,
+      item_u,
+      priceAmazon_u,
+      priceThirdNew_u,
+      priceThirdUsed_u,
       user,
     });
 
@@ -40,8 +40,8 @@ class TrackItemButton extends Component {
 
 const mapStateToProps = ({ app, auth }) => {
   const { user } = auth;
-  const { item, priceAmazon, priceThirdNew, priceThirdUsed } = app;
-  return { item, priceAmazon, priceThirdNew, priceThirdUsed, user };
+  const { item_u, priceAmazon_u, priceThirdNew_u, priceThirdUsed_u } = app;
+  return { item_u, priceAmazon_u, priceThirdNew_u, priceThirdUsed_u, user };
 };
 
 export default connect(mapStateToProps, actions)(TrackItemButton);

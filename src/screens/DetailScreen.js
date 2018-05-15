@@ -8,7 +8,7 @@ import MainHeader from '../components/MainHeader'
 
 class DetailScreen extends Component {
 
-    static navigationOptions = { drawerLabel: 'DETAIL'};
+    static navigationOptions = { drawerLabel: 'Detail'};
 
     componentWillMount() {
       this.props.isUserLoggedIn();
@@ -17,7 +17,7 @@ class DetailScreen extends Component {
     render() {
         return (
           <View>
-            <MainHeader title='Detail' props={this.props} />
+            <MainHeader title='DETAIL' props={this.props} />
             <Text>detial</Text>
         </View>
         );

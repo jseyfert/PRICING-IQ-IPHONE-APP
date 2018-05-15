@@ -13,22 +13,24 @@ import {
   TRACK_ITEM_SUCCESS,
   TRACK_ITEM_ERROR,
 
+  REMOVE_ITEM_TRACKED,
+
+  CLEAR_APP_STATE,
+
 } from '../actions/types';
 
 const INITIAL_STATE = {
+  item_u: null,
+  priceAmazon_u: null,
+  priceThirdNew_u: null,
+  priceThirdUsed_u: null,
 
   trackingItem: null,
-
-  item: null,
+  url: null,
+  asin: null,
   priceAmazon: null,
   priceThirdNew: null,
   priceThirdUsed: null,
-
-  url_t: null,
-  asin_t: null,
-  priceAmazon_t: null,
-  priceThirdNew_t: null,
-  priceThirdUsed_t: null,
 
   appError: null,
 };
@@ -39,29 +41,35 @@ export default function(state = INITIAL_STATE, action) {
     switch (action.type) {
 
       case ITEM_CHANGED:
-        return { ...state, item: action.payload };
+        return { ...state, item_u: action.payload };
       case AMAZON_PRICE_CHANGED:
-        return { ...state, priceAmazon: action.payload };
+        return { ...state, priceAmazon_u: action.payload };
       case THIRD_PARTY_PRICE_NEW_CHANGED:
-        return { ...state, priceThirdNew: action.payload };
+        return { ...state, priceThirdNew_u: action.payload };
       case THIRD_PARTY_PRICE_USED_CHANGED:
-        return { ...state, priceThirdUsed: action.payload };
+        return { ...state, priceThirdUsed_u: action.payload };
 
       case URL_TRACKED:
-        return { ...state, url_t: action.payload };
+        return { ...state, url: action.payload };
       case ASIN_TRACKED:
-        return { ...state, asin_t: action.payload };
+        return { ...state, asin: action.payload };
       case AMAZON_PRICE_TRACKED:
-        return { ...state, priceAmazon_t: action.payload };
+        return { ...state, priceAmazon: action.payload };
       case THIRD_PARTY_PRICE_NEW_TRACKED:
-        return { ...state, priceThirdNew_t: action.payload };
+        return { ...state, priceThirdNew: action.payload };
       case THIRD_PARTY_PRICE_USED_TRACKED:
-        return { ...state, priceThirdUsed_t: action.payload };
+        return { ...state, priceThirdUsed: action.payload };
 
       case TRACK_ITEM_ERROR:
         return { ...state, trackingItem: false, appError: action.payload, };
       case TRACK_ITEM_SUCCESS:
         return { ...state, trackingItem: true, appError: null };
+
+      case REMOVE_ITEM_TRACKED:
+        return { ...INITIAL_STATE, trackingItem: false};
+
+      case CLEAR_APP_STATE:
+        return INITIAL_STATE;
 
       default:
         return state;

@@ -53,17 +53,17 @@ class SettingScreen extends Component {
   }
 
   render() {
-    let { screenLoading, trackingItem } = this.props
-    console.log('this.props', this.props);
-    // const trackingItem = true
-    // const trackingItem = this.props ? this.props.trackingItem : null
+    let { screenLoading, trackingItem, item_u, priceAmazon_u, priceThirdNew_u, priceThirdUsed_u  } = this.props
 
     if (screenLoading) {
       return <Loading />;
     }
 
+    if (_.isNull(trackingItem)) {
+      return <Loading />;
+    }
+
     if (trackingItem) {
-    // if (false) {
       return (
         <ScrollView >
           <MainHeader title='SETTINGS' props={this.props} />
@@ -103,6 +103,7 @@ class SettingScreen extends Component {
               onChangeText={(text) => this.onDetailUrlChange(text)}
               multiline = {true}
               placeholder = 'Paste URL or ASIN...'
+              value={item_u}
             />
           </View>
         </Card>
@@ -111,16 +112,17 @@ class SettingScreen extends Component {
           <FormLabel>Amazon</FormLabel>
           <FormInput
             onChangeText={(text) => this.onAmazonPriceChange(text)}
-            // editable={false}
-            // placeholder={'[33.33]'}
+            value={priceAmazon_u}
           />
           <FormLabel>3rd Party New</FormLabel>
           <FormInput
             onChangeText={(text) => this.onThirdPartyNewChange(text)}
+            value={priceThirdNew_u}
           />
           <FormLabel>3rd Party Used</FormLabel>
           <FormInput
             onChangeText={(text) => this.onThirdPartyUsedChange(text)}
+            value={priceThirdUsed_u}
           />
         </Card>
 
@@ -151,8 +153,9 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = ({ auth, app }) => {
   const { user, screenLoading } = auth;
-  const { appError, trackingItem } = app;
-  return { appError, trackingItem, user, screenLoading };
+  const { appError, trackingItem, item_u, priceAmazon_u, priceThirdNew_u, priceThirdUsed_u } = app;
+  return { appError, trackingItem, item_u, priceAmazon_u, priceThirdNew_u, priceThirdUsed_u, user, screenLoading };
 };
+
 
 export default connect(mapStateToProps, actions)(SettingScreen);

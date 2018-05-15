@@ -27,6 +27,7 @@ class WelcomeScreen extends Component {
     if (nextProps.user) {
       this.props.navigation.navigate('setting')
     }
+    // next do login here on is we are going to setting ro detail
   }
 
   onSlidesComplete = () => {
