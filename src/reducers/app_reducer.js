@@ -92,12 +92,12 @@ export default function(state = INITIAL_STATE, action) {
         return { ...state, itemResponse: true};
       case ITEM_RESPONSE_ERROR:
         return { ...state, itemResponse: false};
-        
+
       case PRICE_RESPONSE:
         return { ...state, priceResponse: action.payload};
 
       case REMOVE_ITEM_TRACKED:
-        return { ...INITIAL_STATE, itemRequest: false};
+        return { ...INITIAL_STATE, itemRequest: false, itemResponse: false};
       case CLEAR_APP_STATE:
         return INITIAL_STATE;
 
