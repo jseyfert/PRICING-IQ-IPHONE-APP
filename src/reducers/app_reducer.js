@@ -17,7 +17,11 @@ import {
   TRACK_ITEM_SUCCESS,
   TRACK_ITEM_ERROR,
 
+  ITEM_RESPONSE_SUCCESS,
+  ITEM_RESPONSE_ERROR,
   REMOVE_ITEM_TRACKED,
+
+  PRICE_RESPONSE,
 
   CLEAR_APP_STATE,
 
@@ -31,7 +35,7 @@ const INITIAL_STATE = {
   pushNotification_u: false,
   emailNotification_u: false,
 
-  trackingItem: null,
+  itemRequest: null,
   url: null,
   asin: null,
   priceAmazon: null,
@@ -39,6 +43,9 @@ const INITIAL_STATE = {
   priceThirdUsed: null,
   pushNotification: null,
   emailNotification: null,
+
+  itemResponse: null,
+  priceResponse: null,
 
   appError: null,
 };
@@ -76,15 +83,21 @@ export default function(state = INITIAL_STATE, action) {
       case PUSH_NOTIFICATION_TRACKED:
         return { ...state, pushNotification: action.payload };
 
-      case TRACK_ITEM_ERROR:
-        return { ...state, trackingItem: false, appError: action.payload, };
       case TRACK_ITEM_SUCCESS:
-        return { ...state, trackingItem: true, appError: null };
+        return { ...state, itemRequest: true, appError: null };
+      case TRACK_ITEM_ERROR:
+        return { ...state, itemRequest: false, appError: action.payload };
+
+      case ITEM_RESPONSE_SUCCESS:
+        return { ...state, itemResponse: true};
+      case ITEM_RESPONSE_ERROR:
+        return { ...state, itemResponse: false};
+        
+      case PRICE_RESPONSE:
+        return { ...state, priceResponse: action.payload};
 
       case REMOVE_ITEM_TRACKED:
-        return { ...INITIAL_STATE, trackingItem: false};
-
-
+        return { ...INITIAL_STATE, itemRequest: false};
       case CLEAR_APP_STATE:
         return INITIAL_STATE;
 

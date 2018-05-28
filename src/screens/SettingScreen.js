@@ -1,7 +1,7 @@
 // git add-commit -m 'zzz'
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, ScrollView, TextInput } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TextInput, PushNotificationIOS } from 'react-native';
 import { Card, Divider, FormLabel, FormInput, CheckBox } from "react-native-elements";
 import { connect } from 'react-redux';
 
@@ -21,10 +21,11 @@ class SettingScreen extends Component {
 
   componentWillMount() {
     this.props.isTrackingItem();
+    PushNotificationIOS.requestPermissions();
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.trackingItem) {
+    if (nextProps.itemRequest) {
       this.props.navigation.navigate('detail')
     }
   }
@@ -51,23 +52,31 @@ class SettingScreen extends Component {
   }
 
   onPushNotificationsChange() {
-    let { pushNotification_u } = this.props
-    this.props.pushNotificationsChange(pushNotification_u);
+    PushNotificationIOS.checkPermissions((permissions) => {
+      console.log(permissions);
+      console.log(permissions.alert)
+      console.log(permissions.badge)
+      if (permissions.alert === 0 || permissions.badge === 0) {
+        alert('To enabled push notifications go to: Settings > Notifications > FrigginYeah')
+      } else {
+        this.props.pushNotificationsChange(this.props.pushNotification_u);
+      }
+    });
   }
 
   render() {
-    let { screenLoading, trackingItem, item_u, priceAmazon_u, priceThirdNew_u, priceThirdUsed_u, pushNotification_u,
+    let { screenLoading, itemRequest, item_u, priceAmazon_u, priceThirdNew_u, priceThirdUsed_u, pushNotification_u,
        emailNotification_u  } = this.props
 
     if (screenLoading) {
       return <Loading />;
     }
 
-    if (_.isNull(trackingItem)) {
+    if (_.isNull(itemRequest)) {
       return <Loading />;
     }
 
-    if (trackingItem) {
+    if (itemRequest) {
       return (
         <ScrollView >
           <MainHeader title='SETTINGS' props={this.props} />
@@ -169,8 +178,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = ({ auth, app }) => {
   const { user, screenLoading } = auth;
-  const { appError, trackingItem, item_u, priceAmazon_u, priceThirdNew_u, priceThirdUsed_u, pushNotification_u, emailNotification_u } = app;
-  return { appError, trackingItem, item_u, priceAmazon_u, priceThirdNew_u, priceThirdUsed_u, pushNotification_u, emailNotification_u, user, screenLoading };
+  const { appError, itemRequest, item_u, priceAmazon_u, priceThirdNew_u, priceThirdUsed_u, pushNotification_u, emailNotification_u } = app;
+  return { appError, itemRequest, item_u, priceAmazon_u, priceThirdNew_u, priceThirdUsed_u, pushNotification_u, emailNotification_u, user, screenLoading };
 };
 
 

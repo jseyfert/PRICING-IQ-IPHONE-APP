@@ -47,6 +47,7 @@
 		3F11265B20982ECD006F4463 /* GoogleSignIn.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F11265820982ECD006F4463 /* GoogleSignIn.framework */; };
 		3F11265D20982F09006F4463 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F11265C20982F09006F4463 /* SafariServices.framework */; };
 		3F11265F20982F15006F4463 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F11265E20982F15006F4463 /* SystemConfiguration.framework */; };
+		3F28BDCB20AD058600F1CCEB /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F28BDC820AD053300F1CCEB /* libRCTPushNotification.a */; };
 		52872059B14E4886BFB1F3E3 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 492083EB399340EBB0C0655E /* libz.tbd */; };
 		5D3951A4A2F24A64BF457B9C /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAE13E7A95064A74AAD3AE82 /* FBSDKShareKit.framework */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
@@ -311,6 +312,20 @@
 			remoteGlobalIDString = 9350E0F11CE3B0920041D815;
 			remoteInfo = RCTFBSDK;
 		};
+		3F28BDC720AD053300F1CCEB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3F28BDC220AD053200F1CCEB /* RCTPushNotification.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RCTPushNotification;
+		};
+		3F28BDC920AD053300F1CCEB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3F28BDC220AD053200F1CCEB /* RCTPushNotification.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D05745F1DE6004600184BB4;
+			remoteInfo = "RCTPushNotification-tvOS";
+		};
 		3FDCDF292098AC4E00114FC1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 655AC4BF1D9A4E5086251123 /* RNVectorIcons.xcodeproj */;
@@ -404,6 +419,8 @@
 		3F11265820982ECD006F4463 /* GoogleSignIn.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleSignIn.framework; sourceTree = "<group>"; };
 		3F11265C20982F09006F4463 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		3F11265E20982F15006F4463 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		3F28BDB820AB973C00F1CCEB /* FrigginYeah.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = FrigginYeah.entitlements; path = FrigginYeah/FrigginYeah.entitlements; sourceTree = "<group>"; };
+		3F28BDC220AD053200F1CCEB /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "../node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
 		47522737FEE241F5B87F90DC /* AddressBook.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		492083EB399340EBB0C0655E /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		4D9A0E40D5E649D9A774DE36 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
@@ -440,6 +457,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F28BDCB20AD058600F1CCEB /* libRCTPushNotification.a in Frameworks */,
 				3F11265F20982F15006F4463 /* SystemConfiguration.framework in Frameworks */,
 				3F11265D20982F09006F4463 /* SafariServices.framework in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
@@ -577,6 +595,7 @@
 		13B07FAE1A68108700A75B9A /* FrigginYeah */ = {
 			isa = PBXGroup;
 			children = (
+				3F28BDB820AB973C00F1CCEB /* FrigginYeah.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -648,6 +667,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		3F28BDC320AD053200F1CCEB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3F28BDC820AD053300F1CCEB /* libRCTPushNotification.a */,
+				3F28BDCA20AD053300F1CCEB /* libRCTPushNotification-tvOS.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		3FDCDF262098AC4E00114FC1 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -711,6 +739,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				3F28BDC220AD053200F1CCEB /* RCTPushNotification.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
@@ -864,6 +893,17 @@
 						CreatedOnToolsVersion = 6.2;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
+					13B07F861A680F5B00A75B9A = {
+						DevelopmentTeam = 6W8PKUCB45;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 0;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
+					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
 						ProvisioningStyle = Automatic;
@@ -918,6 +958,10 @@
 				{
 					ProductGroup = 00C302D41ABCB9D200DB3ED1 /* Products */;
 					ProjectRef = 00C302D31ABCB9D200DB3ED1 /* RCTNetwork.xcodeproj */;
+				},
+				{
+					ProductGroup = 3F28BDC320AD053200F1CCEB /* Products */;
+					ProjectRef = 3F28BDC220AD053200F1CCEB /* RCTPushNotification.xcodeproj */;
 				},
 				{
 					ProductGroup = 139105B71AF99BAD00B5F7CC /* Products */;
@@ -1194,6 +1238,20 @@
 			remoteRef = 3F11265420982DAD006F4463 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		3F28BDC820AD053300F1CCEB /* libRCTPushNotification.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTPushNotification.a;
+			remoteRef = 3F28BDC720AD053300F1CCEB /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3F28BDCA20AD053300F1CCEB /* libRCTPushNotification-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libRCTPushNotification-tvOS.a";
+			remoteRef = 3F28BDC920AD053300F1CCEB /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		3FDCDF2A2098AC4E00114FC1 /* libRNVectorIcons.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1463,8 +1521,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = FrigginYeah/FrigginYeah.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
+				DEVELOPMENT_TEAM = 6W8PKUCB45;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/Frameworks/",
 					"$(PROJECT_DIR)",
@@ -1494,7 +1554,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = FrigginYeah/FrigginYeah.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6W8PKUCB45;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/Frameworks/",
 					"$(PROJECT_DIR)",

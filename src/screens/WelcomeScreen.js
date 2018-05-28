@@ -49,8 +49,8 @@ class WelcomeScreen extends Component {
 const mapStateToProps = ({ auth, app }) => {
   console.log('v=====state=====v\n', {auth, app} );
   const { user } = auth;
-  const { trackingItem } = app;
-  return { user, trackingItem };
+  const { itemRequest } = app;
+  return { user, itemRequest };
 };
 
 export default connect(mapStateToProps, actions)(WelcomeScreen);

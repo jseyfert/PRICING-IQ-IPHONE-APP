@@ -25,6 +25,10 @@ import {
   TRACK_ITEM_ERROR,
   REMOVE_ITEM_TRACKED,
 
+  ITEM_RESPONSE_SUCCESS,
+  ITEM_RESPONSE_ERROR,
+  PRICE_RESPONSE,
+
   CLEAR_APP_STATE,
  } from './types'
 
@@ -74,26 +78,66 @@ import {
 
 export const removeItem = (user) => async dispatch => {
   let userId = firebase.auth().currentUser.uid;
-  await firebase.database().ref('users/' + userId).remove()
+  await firebase.database().ref('items/' + userId).remove()
   return dispatch({ type: REMOVE_ITEM_TRACKED });
 }
 
 export const isTrackingItem = () => async dispatch => {
   let userId = firebase.auth().currentUser.uid;
-  return firebase.database().ref('users/' + userId).once('value').then(function(snapshot) {
-    if (snapshot.val()){
-      dispatch({ type: TRACK_ITEM_SUCCESS });
-      dispatch({ type: URL_TRACKED, payload: snapshot.val().url });
-      dispatch({ type: ASIN_TRACKED, payload: snapshot.val().asin });
-      dispatch({ type: AMAZON_PRICE_TRACKED, payload: snapshot.val().priceAmazon });
-      dispatch({ type: THIRD_PARTY_PRICE_NEW_TRACKED, payload: snapshot.val().priceThirdNew });
-      dispatch({ type: THIRD_PARTY_PRICE_USED_TRACKED, payload: snapshot.val().priceThirdUsed });
-      dispatch({ type: EMAIL_NOTIFICATION_TRACKED, payload: snapshot.val().emailNotification });
-      dispatch({ type: PUSH_NOTIFICATION_TRACKED, payload: snapshot.val().pushNotification });
-    } else {
-      dispatch({ type: TRACK_ITEM_ERROR, payload: null });
-    }
+  var item = await firebase.database().ref('items/' + userId);
+  item.on('value', function(snapshot) {
+      if (snapshot.val()){
+        let settings = snapshot.val().settings
+        let request = snapshot.val().request
+        let response = snapshot.val().response
+
+        if (settings) {
+          dispatch({ type: TRACK_ITEM_SUCCESS });
+          dispatch({ type: EMAIL_NOTIFICATION_TRACKED, payload: settings.emailNotification });
+          dispatch({ type: PUSH_NOTIFICATION_TRACKED, payload: settings.pushNotification });
+        }
+
+        if (request) {
+          dispatch({ type: TRACK_ITEM_SUCCESS });
+          dispatch({ type: URL_TRACKED, payload: request.url });
+          dispatch({ type: ASIN_TRACKED, payload: request.asin });
+          dispatch({ type: AMAZON_PRICE_TRACKED, payload: request.priceAmazon });
+          dispatch({ type: THIRD_PARTY_PRICE_NEW_TRACKED, payload: request.priceThirdNew });
+          dispatch({ type: THIRD_PARTY_PRICE_USED_TRACKED, payload: request.priceThirdUsed });
+        }
+
+        if (response) {
+          dispatch({ type: ITEM_RESPONSE_SUCCESS });
+          dispatch({ type: PRICE_RESPONSE, payload: snapshot.val().response.price });
+        } else {
+          dispatch({ type: ITEM_RESPONSE_ERROR });
+        }
+
+      } else {
+        dispatch({ type: TRACK_ITEM_ERROR, payload: null });
+      }
   });
+
+  // return firebase.database().ref('items/' + userId).on('value').then(function(snapshot) {
+  //   if (snapshot.val()){
+  //     console.log('snapshot.val()',snapshot.val());
+  //
+  //     dispatch({ type: TRACK_ITEM_SUCCESS });
+  //     dispatch({ type: URL_TRACKED, payload: snapshot.val().request.url });
+  //     dispatch({ type: ASIN_TRACKED, payload: snapshot.val().request.asin });
+  //     dispatch({ type: AMAZON_PRICE_TRACKED, payload: snapshot.val().request.priceAmazon });
+  //     dispatch({ type: THIRD_PARTY_PRICE_NEW_TRACKED, payload: snapshot.val().request.priceThirdNew });
+  //     dispatch({ type: THIRD_PARTY_PRICE_USED_TRACKED, payload: snapshot.val().request.priceThirdUsed });
+  //
+  //     dispatch({ type: EMAIL_NOTIFICATION_TRACKED, payload: snapshot.val().settings.emailNotification });
+  //     dispatch({ type: PUSH_NOTIFICATION_TRACKED, payload: snapshot.val().settings.pushNotification });
+  //
+  //     dispatch({ type: PRICE_RESPONSE, payload: snapshot.val().response.price });
+  //
+  //   } else {
+  //     dispatch({ type: TRACK_ITEM_ERROR, payload: null });
+  //   }
+  // });
 }
 
 export const changeTrackingButton = ({
@@ -152,18 +196,22 @@ export const startTrackingButton = ({
   const re = /^\w{7,13}$/i;
   const isAsin = item_u.match(re);
 
-  var userId = firebase.auth().currentUser.uid;
+  var currentUser = firebase.auth().currentUser
+  var userId = currentUser.uid;
+  var email = currentUser.email;
 
   if (isUrl) {
     const isAmazon = isUrl.domain === 'amazon'
     if (isAmazon) {
-      firebase.database().ref('users/' + userId).set({
-        trackingItem: true,
+      firebase.database().ref('items/' + userId + '/request').set({
         url: item_u,
         asin: null,
-        priceAmazon: 33,
+        priceAmazon: priceAmazon_u,
         priceThirdNew: priceThirdNew_u,
         priceThirdUsed: priceThirdUsed_u,
+      });
+      firebase.database().ref('items/' + userId + '/settings').set({
+        email: email,
         pushNotification: pushNotification_u,
         emailNotification: emailNotification_u,
       });
@@ -179,13 +227,15 @@ export const startTrackingButton = ({
       dispatch({ type: TRACK_ITEM_ERROR, payload: 'Not a valid URL or ASIN' });
     }
   } else if (isAsin) {
-    firebase.database().ref('users/' + userId).set({
-      trackingItem: true,
+    firebase.database().ref('items/' + userId + '/request').set({
       url: null,
       asin: item_u,
       priceAmazon: priceAmazon_u,
       priceThirdNew: priceThirdNew_u,
       priceThirdUsed: priceThirdUsed_u,
+    });
+    firebase.database().ref('items/' + userId + '/settings').set({
+      email: email,
       pushNotification: pushNotification_u,
       emailNotification: emailNotification_u,
     });

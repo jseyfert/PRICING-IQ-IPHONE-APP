@@ -16,6 +16,7 @@ export const UPDATED_EMAIL_ERROR = 'update_email_error';
 export const LOGIN_SUCCESS = 'login_success';
 export const LOGIN_FAIL = 'login_fail';
 
+
 // export const FACEBOOK_LOGIN_SUCCESS = 'facebook_login_success'
 // export const FACEBOOK_LOGIN_FAIL = 'facebook_login_fail'
 // export const GOOGLE_LOGIN_SUCCESS = 'google_login_success'
@@ -44,3 +45,7 @@ export const TRACK_ITEM_SUCCESS = 'track_item_success';
 export const TRACK_ITEM_ERROR = 'track_item_error';
 export const CLEAR_APP_STATE = 'clear_app_state';
 export const REMOVE_ITEM_TRACKED = 'remove_item_tracked';
+
+export const ITEM_RESPONSE_ERROR = 'item_response_error';
+export const ITEM_RESPONSE_SUCCESS = 'item_response_success';
+export const PRICE_RESPONSE = 'price_response';

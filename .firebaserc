@@ -1,5 +1,7 @@
 {
   "projects": {
-    "default": "frigginyeah-ca94d"
+    "default": "frigginyeah-ca94d",
+    "frigginyeah-email": "frigginyeah-ca94d",
+    "frigginyeah": "frigginyeah-ca94d"
   }
 }
