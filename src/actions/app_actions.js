@@ -1,9 +1,12 @@
 //fix SocketRocket: In debug mode.  Allowing connection to any root cert
 
+
+import { PushNotificationIOS } from 'react-native';
 import firebase from 'firebase';
 import parseDomain from 'parse-domain';
 import validator from 'validator';
 import _ from 'lodash';
+
 
 import {
   ITEM_CHANGED,
@@ -76,23 +79,58 @@ import {
    };
  };
 
-export const removeItem = (user) => async dispatch => {
+export const addPushNotificationListener = (pushNotification_u) => async dispatch => {
+
   let userId = firebase.auth().currentUser.uid;
-  await firebase.database().ref('items/' + userId).remove()
-  return dispatch({ type: REMOVE_ITEM_TRACKED });
+
+  if (!pushNotification_u){
+    console.log('push notifications not enabled');
+    return null;
+  }
+
+  console.log('getting push notification token');
+
+  // FOR TESTINGvvv
+  firebase.database().ref('items/' + userId + '/settings').update({
+    pushNotificationToken: 'testToken3',
+  });
+  // FOR TESTING^^^
+
+  PushNotificationIOS.addEventListener('register', (token) => {
+    console.log('zzzheyzzz');
+    firebase.database().ref('items/' + userId + '/settings').update({
+      pushNotificationToken: token,
+    });
+  });
+}
+
+export const clearAppState = () => async dispatch => {
+  dispatch({ type: CLEAR_APP_STATE });
+}
+
+export const removeItem = (user) => async dispatch => {
+  dispatch({ type: REMOVE_ITEM_TRACKED });
+  await firebase.database().ref('items/' + user.uid).remove()
 }
 
 export const isTrackingItem = () => async dispatch => {
+
+  if (!firebase.auth().currentUser) {
+    console.log('NO USER1');
+    return null
+  }
+
   let userId = firebase.auth().currentUser.uid;
   var item = await firebase.database().ref('items/' + userId);
   item.on('value', function(snapshot) {
       if (snapshot.val()){
+
         let settings = snapshot.val().settings
         let request = snapshot.val().request
         let response = snapshot.val().response
 
         if (settings) {
-          dispatch({ type: TRACK_ITEM_SUCCESS });
+          // dispatch({ type: TRACK_ITEM_SUCCESS });
           dispatch({ type: EMAIL_NOTIFICATION_TRACKED, payload: settings.emailNotification });
           dispatch({ type: PUSH_NOTIFICATION_TRACKED, payload: settings.pushNotification });
         }
@@ -143,6 +181,7 @@ export const isTrackingItem = () => async dispatch => {
 export const changeTrackingButton = ({
   url, asin, priceAmazon, priceThirdNew, priceThirdUsed, pushNotification, emailNotification, user
 }) => async dispatch => {
+
   dispatch({ type: REMOVE_ITEM_TRACKED });
   dispatch({ type: ITEM_CHANGED, payload: url ? url : asin });
   dispatch({ type: AMAZON_PRICE_CHANGED, payload: priceAmazon });
@@ -150,6 +189,10 @@ export const changeTrackingButton = ({
   dispatch({ type: THIRD_PARTY_PRICE_USED_CHANGED, payload: priceThirdUsed });
   dispatch({ type: EMAIL_NOTIFICATION_CHANGED, payload: emailNotification });
   dispatch({ type: PUSH_NOTIFICATION_CHANGED, payload: pushNotification });
+
+  let userId = firebase.auth().currentUser.uid;
+  await firebase.database().ref('items/' + userId).remove()
+
 }
 
 export const startTrackingButton = ({
@@ -210,7 +253,7 @@ export const startTrackingButton = ({
         priceThirdNew: priceThirdNew_u,
         priceThirdUsed: priceThirdUsed_u,
       });
-      firebase.database().ref('items/' + userId + '/settings').set({
+      firebase.database().ref('items/' + userId + '/settings').update({
         email: email,
         pushNotification: pushNotification_u,
         emailNotification: emailNotification_u,
@@ -234,7 +277,7 @@ export const startTrackingButton = ({
       priceThirdNew: priceThirdNew_u,
       priceThirdUsed: priceThirdUsed_u,
     });
-    firebase.database().ref('items/' + userId + '/settings').set({
+    firebase.database().ref('items/' + userId + '/settings').update({
       email: email,
       pushNotification: pushNotification_u,
       emailNotification: emailNotification_u,

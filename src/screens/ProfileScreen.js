@@ -18,15 +18,15 @@ class ProfileScreen extends Component {
   static navigationOptions = { drawerLabel: 'Profile'};
 
   componentWillMount() {
+    console.log('in ProfileScreen');
     this.props.isUserLoggedIn();
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   // console.log('in componentWillReceiveProps', nextProps);
-  //   if (nextProps.user) {
-  //     this.props.navigation.navigate('setting')
-  //   }
-  // }
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.user) {
+      this.props.navigation.navigate('auth')
+    }
+  }
 
   onNewEmailChange(text) {
     this.props.newEmailChanged(text);
@@ -103,6 +103,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = ({ auth }) => {
+  // console.log('v=====PROFILEstate=====v\n', {auth} );
   const { user, error, screenLoading } = auth;
   return { user, error, screenLoading };
 };

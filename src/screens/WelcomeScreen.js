@@ -20,6 +20,7 @@ class WelcomeScreen extends Component {
 
 
   componentWillMount() {
+    console.log('in WelcomeScreen');
     this.props.isUserLoggedIn();
   }
 

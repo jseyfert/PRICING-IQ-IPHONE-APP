@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, PushNotificationIOS, AppState } from 'react-native';
 import { Button } from "react-native-elements";
 import { connect } from 'react-redux';
+import firebase from 'firebase';
 
 import * as actions from '../actions';
 import MainHeader from '../components/MainHeader'
@@ -12,8 +13,16 @@ class DetailScreen extends Component {
 
     onPress (){
       PushNotificationIOS.checkPermissions((permissions) => {
-        console.log(permissions);
+        console.log('permissions===>',permissions);
       });
+
+      // next figure out why this isnt working in app actions - maybe add to app.js
+      // PushNotificationIOS.addEventListener('register', (token) => {
+      //   console.log('zzzheyzzz');
+      //   firebase.database().ref('items/' + userId + '/settings').update({
+      //     pushNotificationToken: token,
+      //   });
+      // });
 
       PushNotificationIOS.scheduleLocalNotification({
         alertTitle: "Shit Yeah!", // (required)
@@ -24,6 +33,7 @@ class DetailScreen extends Component {
     }
 
     render() {
+      console.log('in DetailScreen');
       let { priceResponse, itemResponse, itemRequest } = this.props
       if (itemResponse) {
         return (

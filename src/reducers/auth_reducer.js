@@ -27,6 +27,7 @@ const INITIAL_STATE = {
   screenLoading: false,
 };
 
+
 export default function(state = INITIAL_STATE, action) {
     console.log('reducer=>', action);
     switch (action.type) {

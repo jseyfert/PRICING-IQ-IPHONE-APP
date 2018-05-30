@@ -7,11 +7,13 @@ import * as actions from '../actions';
 
 class LocalButtonDeleteAccount extends Component {
 
-  // onNewEmailChange(text) {
-  //   this.props.newEmailChanged(text);
-  // }
+  async onYesClick () {
+    let { user } = this.props
+    await this.props.localDeleteAccount();
+    this.props.removeItem(user);
+  }
 
-  onButtonClick (props) {
+  onButtonClick () {
     AlertIOS.alert(
       'Delete Account?',
       '',
@@ -24,8 +26,7 @@ class LocalButtonDeleteAccount extends Component {
         {
           text: 'Yes',
           onPress: () => {
-            props.localDeleteAccount();
-            props.navigation.navigate('auth');
+            this.onYesClick();
           },
         },
       ]
@@ -41,11 +42,15 @@ class LocalButtonDeleteAccount extends Component {
               title='Delete Account'
               backgroundColor='#4267B2'
               borderRadius={4}
-              // buttonStyle={{ width: 210}}
             />
           </View>
       );
   }
 }
 
-export default connect(null, actions)(LocalButtonDeleteAccount);
+const mapStateToProps = ({ auth }) => {
+  const { user } = auth;
+  return { user };
+};
+
+export default connect(mapStateToProps, actions)(LocalButtonDeleteAccount);

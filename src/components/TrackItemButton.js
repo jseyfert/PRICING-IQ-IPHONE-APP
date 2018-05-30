@@ -19,6 +19,8 @@ class TrackItemButton extends Component {
       user,
     } = this.props;
 
+    this.props.addPushNotificationListener(pushNotification_u);
+
     this.props.startTrackingButton({
       item_u,
       priceAmazon_u,

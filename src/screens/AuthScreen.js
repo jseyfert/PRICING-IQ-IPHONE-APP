@@ -18,12 +18,11 @@ class AuthScreen extends Component {
     this.props.isUserLoggedIn();
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   // console.log('in componentWillReceiveProps', nextProps);
-  //   if (nextProps.user) {
-  //     this.props.navigation.navigate('setting')
-  //   }
-  // }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.user) {
+      this.props.navigation.navigate('setting')
+    }
+  }
 
   render(props) {
     if (this.props.screenLoading) {
@@ -31,7 +30,7 @@ class AuthScreen extends Component {
     }
     return (
       <View>
-        <Card containerStyle={{ marginTop: 50 }}> 
+        <Card containerStyle={{ marginTop: 50 }}>
           <LoginForm />
           <FormLabel labelStyle={{ textAlign: 'center', marginBottom: 25 }}>
             OR
@@ -43,24 +42,6 @@ class AuthScreen extends Component {
         </Card>
       </View>
     );
-    // return (
-    //   <View style={styles.containerLocalLogin}>
-    //
-    //     <View style={styles.containerLocalLogin}>
-    //       <LoginForm />
-    //     </View>
-    //
-    //     <View style={styles.containerOauth}>
-    //       <View style={styles.containerOauthButtons}>
-    //         <FacebookButtonLogin />
-    //       </View>
-    //       <View style={styles.containerOauthButtons}>
-    //         <GoogleButtonLogin />
-    //       </View>
-    //     </View>
-    //
-    //   </View>
-    // );
   }
 }
 

@@ -121,12 +121,10 @@ export const localPasswordReset = ({ email }) => async dispatch => {
 
 export const localDeleteAccount = () => async dispatch => {
   try {
-    dispatch({ type: SCREEN_SPINNER });
-
     var user = await firebase.auth().currentUser;
     await user.delete()
-
     dispatch({ type: CLEAR_STATE});
+    // dispatch({ type: SCREEN_SPINNER });
     alert('User has been deleted!')
   } catch (e) {
     dispatch({ type: DELETE_ACCOUNT_ERROR, payload: e.message });

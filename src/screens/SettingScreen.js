@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, ScrollView, TextInput, PushNotificationIOS } from 'react-native';
 import { Card, Divider, FormLabel, FormInput, CheckBox } from "react-native-elements";
 import { connect } from 'react-redux';
+import firebase from 'firebase';
 
 import * as actions from '../actions';
 import Loading from './Loading';
@@ -20,11 +21,21 @@ class SettingScreen extends Component {
   static navigationOptions = { drawerLabel: 'Settings'};
 
   componentWillMount() {
+    let { user } = this.props
     this.props.isTrackingItem();
     PushNotificationIOS.requestPermissions();
+
+    PushNotificationIOS.addEventListener('register', (token) => {
+      firebase.database().ref('items/' + user.uid + '/settings').update({
+        pushNotificationToken: token,
+      });
+    });
   }
 
   componentWillReceiveProps(nextProps) {
+    // if (!nextProps.user) {
+    //   this.props.navigation.navigate('auth')
+    // }
     if (nextProps.itemRequest) {
       this.props.navigation.navigate('detail')
     }
@@ -127,7 +138,7 @@ class SettingScreen extends Component {
             onChangeText={(text) => this.onAmazonPriceChange(text)}
             value={priceAmazon_u}
           />
-          <FormLabel>3rd Party New</FormLabel>
+          {/* <FormLabel>3rd Party New</FormLabel>
           <FormInput
             onChangeText={(text) => this.onThirdPartyNewChange(text)}
             value={priceThirdNew_u}
@@ -144,7 +155,7 @@ class SettingScreen extends Component {
             checked={emailNotification_u}
             onIconPress={(bool) => this.onEmailNotificationsChange(bool)}
             onPress={(bool) => this.onEmailNotificationsChange(bool)}
-          />
+          /> */}
           <CheckBox
             center
             title='Push Notifications'

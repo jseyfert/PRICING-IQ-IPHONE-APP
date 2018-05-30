@@ -7,8 +7,8 @@ import * as actions from '../actions';
 class RemoveTrackingButton extends Component {
 
   onButtonClick (){
-    const { userLocal } = this.props;
-    this.props.removeItem(userLocal);
+    let { user } = this.props
+    this.props.removeItem(user);
   }
 
   render() {
@@ -23,9 +23,9 @@ class RemoveTrackingButton extends Component {
   }
 }
 
-const mapStateToProps = ({ app, auth }) => {
-  const { userLocal } = auth;
-  return { userLocal };
+const mapStateToProps = ({ auth }) => {
+  const { user } = auth;
+  return { user };
 };
 
 export default connect(mapStateToProps, actions)(RemoveTrackingButton);

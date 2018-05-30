@@ -1,3 +1,4 @@
+
 import {
   ITEM_CHANGED,
   AMAZON_PRICE_CHANGED,
@@ -97,7 +98,9 @@ export default function(state = INITIAL_STATE, action) {
         return { ...state, priceResponse: action.payload};
 
       case REMOVE_ITEM_TRACKED:
-        return { ...INITIAL_STATE, itemRequest: false, itemResponse: false};
+      // return { ...INITIAL_STATE, itemRequest: false, itemResponse: false};
+        return { ...INITIAL_STATE };
+        
       case CLEAR_APP_STATE:
         return INITIAL_STATE;
 

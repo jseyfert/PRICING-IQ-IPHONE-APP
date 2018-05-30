@@ -7,8 +7,9 @@ import * as actions from '../actions';
 
 class LocalButtonLogout extends Component {
 
-  onButtonClick (props) {
-    props.localLogout();
+  async onButtonClick (props) {
+    await props.localLogout();
+    // await props.clearAppState(); //fix figure out how to clear state here without app haging on spinner
     props.navigation.navigate('auth')
   }
 
